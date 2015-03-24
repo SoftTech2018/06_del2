@@ -1,3 +1,4 @@
+package wcuMain;
 
 public class Main {
 
