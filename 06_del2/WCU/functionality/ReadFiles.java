@@ -8,25 +8,48 @@ public class ReadFiles {
 
 	private File log;
 	private File store;
+	private int logLines;
 
-	public ReadFiles(){
+	public ReadFiles() throws FileNotFoundException{
 		log = new File("/files/Log.txt");
 		store = new File("/files.txt/store.txt");
+		logLines = countLines();
+	}
+
+	private int countLines() throws FileNotFoundException{
+		Scanner scan = null;
+		int i = 0;
+		try {
+			scan = new Scanner(store);
+			while (scan.hasNextLine()){
+				i++;
+			}
+		} finally {
+			scan.close();
+		}
+		return i;
 	}
 
 	public String getProductName(int productNumber) throws FileNotFoundException{
 		// Read store.txt, find produktnummeret og returner produktnavnet
 		Scanner scan = null;
+		String out = null;
 		try {
 			scan = new Scanner(store);
-			int p =0;
-			do {
-				p = scan.nextInt();
-			} while (p != productNumber);
+			scan.useDelimiter(",");
+			while (scan.hasNext()){
+				String temp = scan.next();
+				if (Integer.valueOf(temp) == productNumber){
+					out = scan.next();
+					break;
+				} else {
+					scan.nextLine(); // hop til næste linie?
+				}
+			}
 		} finally {
 			scan.close();
 		}
-		return null;
+		return out;
 	}
 
 	public void writeLog(String line){
