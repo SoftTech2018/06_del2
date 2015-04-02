@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadFiles {
+public class ReadFiles implements IReadFiles {
 
 	private File log;
 	private File store;
@@ -36,6 +36,10 @@ public class ReadFiles {
 		return i;
 	}
 
+	/* (non-Javadoc)
+	 * @see functionality.IReadFiles#getProductName(int)
+	 */
+	@Override
 	public String getProductName(int productNumber) throws FileNotFoundException{
 		// Read store.txt, find produktnummeret og returner produktnavnet
 		String out = null;
@@ -53,6 +57,10 @@ public class ReadFiles {
 		return out;
 	}
 
+	/* (non-Javadoc)
+	 * @see functionality.IReadFiles#writeLog(int, int, double, double)
+	 */
+	@Override
 	public void writeLog(int oprNr, int vareNr, double afvejet, double lager) throws FileNotFoundException{
 		// tilføj en linje til Log.txt
 		//Dato, Tid, Operatørnummer, varenummer, afvejning (i kg), tilbage på lager (i kg)
@@ -65,6 +73,10 @@ public class ReadFiles {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see functionality.IReadFiles#updProductInventory(int, double)
+	 */
+	@Override
 	public boolean updProductInventory(int productNumber, double amountUsed) throws FileNotFoundException{
 		// Ret i inventory i store.txt
 		boolean updated = false;
@@ -83,6 +95,10 @@ public class ReadFiles {
 		return updated;
 	}
 
+	/* (non-Javadoc)
+	 * @see functionality.IReadFiles#getProductInventory(int)
+	 */
+	@Override
 	public double getProductInventory(int productNumber) throws FileNotFoundException{
 		// find mængde på lager for det pågældende produkt
 		double out = -1;

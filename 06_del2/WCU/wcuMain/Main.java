@@ -2,13 +2,14 @@ package wcuMain;
 
 import java.io.FileNotFoundException;
 
+import functionality.IReadFiles;
 import functionality.ReadFiles;
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			ReadFiles rf = new ReadFiles();
+			IReadFiles rf = new ReadFiles();
 			System.out.println("Test af ReadFiles.getProductName (produktnr 10): " + rf.getProductName(10));
 			System.out.println("Test af ReadFiles.getProductName (produktnr 0): " + rf.getProductName(0));
 			System.out.println("Skriver til log - OprNr 10, VareNr 1234, afvejet 1.478, lagerbeholdning 0.719");
