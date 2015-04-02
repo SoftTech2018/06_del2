@@ -7,25 +7,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ReadFiles {
 
 	private File log;
 	private File store;
-	private int storeLines;
 
 	public ReadFiles() throws FileNotFoundException{
 		log = new File("files/Log.txt");
 		store = new File("files/store.txt");
-		storeLines = countLines();
-		if (storeLines != 4) // Hvor mange linjer varer skal vi have?
+		if (countLines() != 4) // Hvor mange linjer varer skal vi have?
 			throw new FileNotFoundException();
 	}
 
@@ -43,23 +38,18 @@ public class ReadFiles {
 
 	public String getProductName(int productNumber) throws FileNotFoundException{
 		// Read store.txt, find produktnummeret og returner produktnavnet
-		Scanner scan = null;
 		String out = null;
-		try {
-			scan = new Scanner(store);
-			scan.useDelimiter(",");
-			while (scan.hasNext()){
-				String temp = scan.next();
-				if (Integer.valueOf(temp) == productNumber){
-					out = scan.next();
-					break;
-				} else {
-					scan.nextLine(); // hop til næste linie?
-				}
-			}
-		} finally {
-			scan.close();
+		String[] data = readFile(store);
+		int p = 0;
+		while (p < data.length){
+			String[] line = data[p].split(",");
+			if (productNumber == Integer.parseInt(line[0])){
+				out = line[1];
+			} 
+			p++;
 		}
+		if (out.equals(null))
+			out = "Produkt ej fundet!";
 		return out;
 	}
 
@@ -93,9 +83,19 @@ public class ReadFiles {
 		return updated;
 	}
 
-	public double getProductInventory(int productNumber){
+	public double getProductInventory(int productNumber) throws FileNotFoundException{
 		// find mængde på lager for det pågældende produkt
-		return 0;
+		double out = -1;
+		String[] data = readFile(store);
+		int p = 0;
+		while (p < data.length){
+			String[] line = data[p].split(",");
+			if (productNumber == Integer.parseInt(line[0])){
+				out = Double.parseDouble(line[2]);
+			} 
+			p++;
+		}
+		return out;
 	}
 
 	private String[] readFile(File fil) throws FileNotFoundException{
