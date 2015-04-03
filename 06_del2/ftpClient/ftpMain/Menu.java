@@ -20,14 +20,31 @@ public class Menu implements IMenu {
 		System.out.println();
 	}
 	
-	public void list(String list) { //String list returnerer listen af filer på FTP-serveren, omdannet til strings
+	public int list(String list) { //String list returnerer listen af filer på FTP-serveren, omdannet til strings
 		System.out.println("Du har valgt list-kommandoen, du har nu følgende muligheder: ");
 		System.out.println(list); //Her skal der laves en for løkke der printer alle filtitlerne ud
-		System.out.println("Indtast 2 for retrieve, efterfulgt af tallet ud fra den fil du vil hente.");
+		System.out.println("Indtast 2 for retrieve-kommando);
+		
+		int out;
+		
+		out = menuScan.nextInt();
+		return out;
 	}
 	
-	public void retrieve(File file) { //Hvilken type skal filen være??
-		System.out.println("Du har hentet fil " + file);
+	public void retrieve(File file, int fileArray[]) { //Hvilken type skal filen være??, fileArray bruges i menuControlleren til at holde styr på filerne
+		for (int i = 0; i < fileArray.length; i++) {
+			System.out.println(fileArray[i]);
+		}
+		System.out.println("Indtast hvilket filnumer du vil hente");
+		int out;
+		out = menuScan.nextInt();
+		for (int i = 0; i < fileArray.length; i++) {
+			if (out = fileArray[i]) {
+			System.out.println("Du har hentet fil nr" + fileArray[i]); //højst sandsynligt ikke den optimale løsning
+		}
+		} 
+		
+		
 	}
 	
 }
