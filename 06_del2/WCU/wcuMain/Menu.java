@@ -26,7 +26,7 @@ public class Menu {
 		System.out.println();
 	}
 	
-	public void showGET_PROD_NR(int nr){
+	public void showGET_PROD_NR(){
 		
 	}
 	
