@@ -1,14 +1,18 @@
 package wcuMain;
 
+import functionality.IReadFiles;
+
 
 
 public class MenuController {
 
 	private State state;
 	private Menu menu;
+	private IReadFiles fileAccess;
 
-	public MenuController(Menu menu) {
+	public MenuController(Menu menu, IReadFiles rf) {
 		this.menu = menu;
+		fileAccess = rf;
 		this.state = State.START;
 	}
 

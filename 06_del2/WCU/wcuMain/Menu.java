@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Menu {
 	
-	Scanner menuScan = new Scanner(System.in);
-	
+	Scanner menuScan = new Scanner(System.in);	
 	
 	public String ask() {
 		String out;
