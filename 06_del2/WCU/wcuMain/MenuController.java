@@ -3,7 +3,7 @@ package wcuMain;
 
 
 public class MenuController {
-	
+
 	private State state, prev_state;
 	private Menu menu;
 
@@ -13,55 +13,62 @@ public class MenuController {
 		this.prev_state=null;
 	}
 
-	public void action(int x) {
+	public void action(String x) {
 		this.prev_state=this.state;
-		this.state = this.state.changeState(x);
+		this.state = this.state.changeState(x,menu);
 	}
-	
-	public int getInput(){
+
+	public String getInput(){
 		try{
-			int input = Integer.parseInt(menu.ask());
-			return input;
+			return menu.ask();
 		}
 		catch(NumberFormatException e){
 			System.out.println("Du er en tosse - prøv igen");
 			return getInput();
 		}
 	}
-	
+
 	public void start(){
-		menu.show("Velkommen! Indtast venligst operatørnummer");
+		menu.show("Velkommen!");
+		loop();
+		action("q");
+	}
+
+	public void loop(){
 		do{
-		
-		action(getInput());		
+			menu.show(state.desc());
+			action(getInput());		
 		}
 		while(!state.equals(State.STOP));
-		action(-3);
 	}
-	
-	
-	
+
 	public enum State {
 		START {
 			@Override
 			String desc(){
-				return "null"; 
+				return "Indtast operatørnummer: "; 
 			}
 			@Override
-			State changeState(int x) {
-				switch(x) {
-				case 11:
-					// TODO: do something
-					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-					return GET_PROD_NR;
-				case -2:
-					// TODO: do something
-					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+			State changeState(String x, Menu menu) {
+				int input;
+				if(x.toLowerCase()=="q"){
+					input = -2;
+				} else {
+					try{
+						input = Integer.parseUnsignedInt(x);
+					} catch (NumberFormatException e) {
+						menu.show("Forkert type input. Prøv igen");
+						input=-1;
+					}
+				}
+				switch(input) {
+				case -1:					
+					return START;
+				case -2:					
 					return STOP;
 				default:
-					// TODO: do something
-					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-					return INVALIDSTATE;
+					menu.showSTART();
+					return GET_PROD_NR;
 				}
 			}
 		},
@@ -73,7 +80,7 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				switch(x) {
 				case 12:
 					// TODO: do something
@@ -94,7 +101,7 @@ public class MenuController {
 				}
 			}
 
-			
+
 		},
 		SET_CONTAINER {
 			@Override
@@ -104,7 +111,7 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				switch(x) {
 				case 13:
 					// TODO: do something
@@ -125,7 +132,7 @@ public class MenuController {
 				}
 			}
 
-			
+
 		},
 		ADD_PRODUCT {
 			@Override
@@ -134,7 +141,7 @@ public class MenuController {
 				return null;
 			}
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				switch(x) {
 				case 14:
 					// TODO: do something
@@ -155,7 +162,7 @@ public class MenuController {
 				}
 			}
 
-			
+
 		},
 		REMOVE_CONTAINER {
 			@Override
@@ -164,7 +171,7 @@ public class MenuController {
 				return null;
 			}
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				switch(x) {
 				case 14:
 					// TODO: do something
@@ -185,7 +192,7 @@ public class MenuController {
 				}
 			}
 
-			
+
 		},
 		INVALIDSTATE {
 			@Override
@@ -195,13 +202,13 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				// TODO: do something
 				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
 				return STOP;
 			}
 
-			
+
 		},
 		STOP {
 			@Override
@@ -211,22 +218,19 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(int x) {
+			State changeState(String x) {
 				// TODO: do something
 				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
 				return STOP;
 			}
 
-			
+
 		};
-		abstract State changeState(int x);
-
-		abstract String desc(); 
-
-		
+		abstract State changeState(String x,Menu menu);
+		abstract String desc();
 	}
-	
-	
+
+
 
 
 }

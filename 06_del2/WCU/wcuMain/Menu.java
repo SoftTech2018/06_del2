@@ -21,8 +21,9 @@ public class Menu {
 		return out;
 	}
 	
-	public void showSTART(int nr){
-		
+	public void showSTART(){
+		System.out.println("Operatørnummer godkendt");
+		System.out.println();
 	}
 	
 	public void showGET_PROD_NR(int nr){
@@ -42,7 +43,8 @@ public class Menu {
 	}
 	
 	public void show(String txt){
-	System.out.println(txt);	
+	System.out.println(txt);
+	System.out.println();
 	}
 	
 	
