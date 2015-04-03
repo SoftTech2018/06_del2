@@ -31,19 +31,22 @@ public class MenuController {
 	
 	public void start(){
 		menu.show("Velkommen! Indtast venligst operatørnummer");
-		
-		
 		do{
-		int input;
 		
+		action(getInput());		
 		}
 		while(!state.equals(State.STOP));
+		action(-3);
 	}
 	
 	
 	
 	public enum State {
 		START {
+			@Override
+			String desc(){
+				return "null"; 
+			}
 			@Override
 			State changeState(int x) {
 				switch(x) {
@@ -63,6 +66,11 @@ public class MenuController {
 			}
 		},
 		GET_PROD_NR {
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 			@Override
 			State changeState(int x) {
@@ -85,8 +93,15 @@ public class MenuController {
 					return INVALIDSTATE;
 				}
 			}
+
+			
 		},
 		SET_CONTAINER {
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 			@Override
 			State changeState(int x) {
@@ -109,9 +124,15 @@ public class MenuController {
 					return INVALIDSTATE;
 				}
 			}
+
+			
 		},
 		ADD_PRODUCT {
-
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			@Override
 			State changeState(int x) {
 				switch(x) {
@@ -133,9 +154,15 @@ public class MenuController {
 					return INVALIDSTATE;
 				}
 			}
+
+			
 		},
 		REMOVE_CONTAINER {
-
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			@Override
 			State changeState(int x) {
 				switch(x) {
@@ -157,8 +184,15 @@ public class MenuController {
 					return INVALIDSTATE;
 				}
 			}
+
+			
 		},
 		INVALIDSTATE {
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 			@Override
 			State changeState(int x) {
@@ -166,8 +200,15 @@ public class MenuController {
 				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
 				return STOP;
 			}
+
+			
 		},
 		STOP {
+			@Override
+			String desc() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 			@Override
 			State changeState(int x) {
@@ -175,8 +216,14 @@ public class MenuController {
 				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
 				return STOP;
 			}
+
+			
 		};
 		abstract State changeState(int x);
+
+		abstract String desc(); 
+
+		
 	}
 	
 	
