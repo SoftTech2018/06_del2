@@ -11,7 +11,7 @@ public class MenuController {
 				case 11:
 					// TODO: do something
 					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-					return STEP1;
+					return GET_PROD_NR;
 				case -2:
 					// TODO: do something
 					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
@@ -31,7 +31,7 @@ public class MenuController {
 				case 12:
 					// TODO: do something
 					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-					return STEP2;
+					return SET_CONTAINER;
 				case -1:
 					// TODO: do something
 					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
@@ -45,93 +45,99 @@ public class MenuController {
 					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
 					return INVALIDSTATE;
 				}
-			}},
-			SET_CONTAINER {
+			}
+		},
+		SET_CONTAINER {
 
-				@Override
-				State changeState(int x) {
-					switch(x) {
-					case 13:
-						// TODO: do something
-						System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-						return STEP3;
-					case -1:
-						// TODO: do something
-						System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-						return START;
-					case -2:
-						// TODO: do something
-						System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-						return STOP;
-					default:
-						// TODO: do something
-						System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-						return INVALIDSTATE;
-					}
-				}},
-				ADD_PRODUCT {
+			@Override
+			State changeState(int x) {
+				switch(x) {
+				case 13:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return ADD_PRODUCT;
+				case -1:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return START;
+				case -2:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return STOP;
+				default:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return INVALIDSTATE;
+				}
+			}
+		},
+		ADD_PRODUCT {
 
-					@Override
-					State changeState(int x) {
-						switch(x) {
-						case 14:
-							// TODO: do something
-							System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-							return STOP;
-						case -1:
-							// TODO: do something
-							System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-							return START;
-						case -2:
-							// TODO: do something
-							System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-							return STOP;
-						default:
-							// TODO: do something
-							System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-							return INVALIDSTATE;
-						}
-					}},
-					REMOVE_CONTAINER {
+			@Override
+			State changeState(int x) {
+				switch(x) {
+				case 14:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return REMOVE_CONTAINER;
+				case -1:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return START;
+				case -2:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return STOP;
+				default:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return INVALIDSTATE;
+				}
+			}
+		},
+		REMOVE_CONTAINER {
 
-						@Override
-						State changeState(int x) {
-							switch(x) {
-							case 14:
-								// TODO: do something
-								System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-								return STOP;
-							case -1:
-								// TODO: do something
-								System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-								return START;
-							case -2:
-								// TODO: do something
-								System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-								return STOP;
-							default:
-								// TODO: do something
-								System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-								return INVALIDSTATE;
-							}
-						}},
-						INVALIDSTATE {
+			@Override
+			State changeState(int x) {
+				switch(x) {
+				case 14:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return STOP;
+				case -1:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return START;
+				case -2:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return STOP;
+				default:
+					// TODO: do something
+					System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+					return INVALIDSTATE;
+				}
+			}
+		},
+		INVALIDSTATE {
 
-							@Override
-							State changeState(int x) {
-								// TODO: do something
-								System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-								return STOP;
-							}},
-							STOP {
+			@Override
+			State changeState(int x) {
+				// TODO: do something
+				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+				return STOP;
+			}
+		},
+		STOP {
 
-								@Override
-								State changeState(int x) {
-									// TODO: do something
-									System.out.println("I am now changing from state " + this + " with int argument x = " + x);
-									return STOP;
-								}};
-								abstract State changeState(int x);
+			@Override
+			State changeState(int x) {
+				// TODO: do something
+				System.out.println("I am now changing from state " + this + " with int argument x = " + x);
+				return STOP;
+			}
+		};
+		abstract State changeState(int x);
 	}
 
 	private State state, prev_state;
@@ -141,7 +147,7 @@ public class MenuController {
 		this.prev_state=null;
 	}
 
-	public void doSomething(int x) {
+	public void action(int x) {
 		this.prev_state=this.state;
 		this.state = this.state.changeState(x);
 	}
