@@ -5,9 +5,17 @@ import java.io.FileNotFoundException;
 import functionality.IReadFiles;
 import functionality.ReadFiles;
 
+import java.util.*;
+
 public class Main {
 
+	
 	public static void main(String[] args) {
+		Menu menu = new Menu();
+		MenuController menuCon = new MenuController(menu);
+		
+		menuCon.start();	
+		
 		try {
 			IReadFiles rf = new ReadFiles();
 			System.out.println("Test af ReadFiles.getProductName (produktnr 10): " + rf.getProductName(10));
@@ -21,6 +29,9 @@ public class Main {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
+	
+		
 	}
 
 }

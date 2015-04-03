@@ -3,6 +3,25 @@ package wcuMain;
 
 
 public class MenuController {
+	
+	private State state, prev_state;
+	private Menu menu;
+
+	public MenuController(Menu menu) {
+		this.menu = menu;
+		this.state = State.START;
+		this.prev_state=null;
+	}
+
+	public void action(int x) {
+		this.prev_state=this.state;
+		this.state = this.state.changeState(x);
+	}
+	
+	public void start(){
+		
+	}
+	
 	public enum State {
 		START {
 			@Override
@@ -140,15 +159,5 @@ public class MenuController {
 		abstract State changeState(int x);
 	}
 
-	private State state, prev_state;
 
-	public MenuController() {
-		this.state = State.START;
-		this.prev_state=null;
-	}
-
-	public void action(int x) {
-		this.prev_state=this.state;
-		this.state = this.state.changeState(x);
-	}
 }
