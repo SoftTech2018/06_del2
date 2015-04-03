@@ -21,23 +21,23 @@ public class Menu {
 		return out;
 	}
 	
-	public void showSTART(){
+	public void showSTART(int nr){
 		
 	}
 	
-	public void showGET_PROD_NR(){
+	public void showGET_PROD_NR(int nr){
 		
 	}
 	
-	public void showSET_CONTAINER(){
+	public void showSET_CONTAINER(int nr){
 		
 	}
 	
-	public void showADD_PRODUCT(){
+	public void showADD_PRODUCT(int nr){
 		
 	}
 	
-	public void showREMOVE_CONTAINER(){
+	public void showREMOVE_CONTAINER(int nr){
 		
 	}
 	

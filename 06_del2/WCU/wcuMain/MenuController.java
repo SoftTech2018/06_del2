@@ -18,9 +18,29 @@ public class MenuController {
 		this.state = this.state.changeState(x);
 	}
 	
-	public void start(){
-		
+	public int getInput(){
+		try{
+			int input = Integer.parseInt(menu.ask());
+			return input;
+		}
+		catch(NumberFormatException e){
+			System.out.println("Du er en tosse - prøv igen");
+			return getInput();
+		}
 	}
+	
+	public void start(){
+		menu.show("Velkommen! Indtast venligst operatørnummer");
+		
+		
+		do{
+		int input;
+		
+		}
+		while(!state.equals(State.STOP));
+	}
+	
+	
 	
 	public enum State {
 		START {
@@ -158,6 +178,8 @@ public class MenuController {
 		};
 		abstract State changeState(int x);
 	}
+	
+	
 
 
 }
