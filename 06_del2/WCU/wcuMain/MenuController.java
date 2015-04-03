@@ -12,12 +12,12 @@ public class MenuController {
 
 	public MenuController(Menu menu, IReadFiles rf) {
 		this.menu = menu;
-		fileAccess = rf;
+		this.fileAccess = rf;
 		this.state = State.START;
 	}
 
 	public void action(String x) {
-		this.state = this.state.changeState(x,menu);
+		this.state = this.state.changeState(x,menu,fileAccess);
 	}
 
 	public String getInput(){
@@ -50,7 +50,7 @@ public class MenuController {
 				return "Indtast operatørnummer: "; 
 			}
 			@Override
-			State changeState(String x, Menu menu) {
+			State changeState(String x, Menu menu, IReadFiles fileAccess) {
 				int input;
 				if(x.toLowerCase()=="q"){
 					input = -2;
@@ -68,6 +68,7 @@ public class MenuController {
 				case -2:					
 					return STOP;
 				default:
+					opr_nr = input;
 					menu.showSTART();
 					return GET_PROD_NR;
 				}
@@ -80,7 +81,7 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(String x,Menu menu) {
+			State changeState(String x,Menu menu, IReadFiles fileAccess) {
 				int input;
 				if(x.toLowerCase()=="q"){
 					input = -2;
@@ -98,6 +99,7 @@ public class MenuController {
 				case -2:					
 					return STOP;
 				default:
+					vare_nr = input;
 					menu.showGET_PROD_NR();
 					return SET_CONTAINER;
 				}
@@ -112,7 +114,7 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(String x, Menu menu) {
+			State changeState(String x, Menu menu, IReadFiles fileAccess) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -134,7 +136,7 @@ public class MenuController {
 				return "Afvej vare og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(String x, Menu menu) {
+			State changeState(String x, Menu menu, IReadFiles fileAccess) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -153,7 +155,7 @@ public class MenuController {
 				return "Fjern beholder og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(String x, Menu menu) {
+			State changeState(String x, Menu menu, IReadFiles fileAccess) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -172,12 +174,13 @@ public class MenuController {
 			}
 
 			@Override
-			State changeState(String x, Menu menu) {
+			State changeState(String x, Menu menu, IReadFiles fileAccess) {
 				return STOP;
 			}
 		};
-		abstract State changeState(String x,Menu menu);
+		abstract State changeState(String x, Menu menu, IReadFiles fileAccess);
 		abstract String desc();
+		int opr_nr,vare_nr;
 	}
 
 
