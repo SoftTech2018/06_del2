@@ -91,8 +91,22 @@ public class Transmitter implements ITransmitter {
 		}
 	}
 	
-	public String ST() throws IOException{
-		out.println("ST");
-		return in.readLine(); // Muligvis find en substring!
+	@Override
+	public boolean startST(boolean status) throws IOException{
+		if (status)
+			out.println("ST 1");
+		else
+			out.println("ST 0");
+		if (in.readLine().equalsIgnoreCase("ST A"))
+			return true;
+		else
+			return false;
 		}
+	
+	@Override
+	public String listenST() throws IOException{
+		String reply = in.readLine();
+		return reply.substring(4,(reply.length()-3));
+	}
+	
 }

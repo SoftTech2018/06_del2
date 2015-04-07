@@ -44,4 +44,8 @@ public interface ITransmitter {
 
 	void connected(BufferedReader in, PrintWriter out);
 
+	boolean startST(boolean status) throws IOException;
+
+	String listenST() throws IOException;
+
 }
