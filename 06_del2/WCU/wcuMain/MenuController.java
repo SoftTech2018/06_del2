@@ -68,7 +68,7 @@ public class MenuController implements IMenuController {
 			@Override
 			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
 				int input;
-				if(x.toLowerCase()=="q"){
+				if(x.toLowerCase().equals("q")){
 					input = -2;
 				} else {
 					try{

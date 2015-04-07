@@ -25,7 +25,7 @@ public class Main {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println("test");
+		System.exit(0);
 
 //		
 //		System.out.println("Test af ReadFiles.getProductName (produktnr 10): " + rf.getProductName(10));
