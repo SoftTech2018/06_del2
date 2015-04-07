@@ -3,7 +3,9 @@ package wcuMain;
 import java.io.FileNotFoundException;
 
 import functionality.IReadFiles;
+import functionality.ITransmitter;
 import functionality.ReadFiles;
+import functionality.Transmitter;
 
 import java.util.*;
 
@@ -11,15 +13,28 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		System.out.println("test");
+		
+		int port;
+		String host;
+		
+		if (args.length == 2){
+			port = Integer.parseInt(args[1]);
+			host = args[0];
+		}
+		else {
+			port = 8000;
+			host = "localHost";			
+		}
+		
 		IReadFiles rf = null;
 		IMenu menu = new Menu();
-		System.out.println("test");
+
 		try {
-			System.out.println("test");
+
 			rf = new ReadFiles();
-			IMenuController menuCon = new MenuController(menu,rf);
-			menuCon.start();
+			ITransmitter trans = new Transmitter();
+			IMenuController menuCon = new MenuController(menu,rf, host, port, trans);
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("Noget i filbehandlingen gik grueligt galt :-( Kontakt udvikleren.");
 			e.printStackTrace();

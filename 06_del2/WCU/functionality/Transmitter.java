@@ -35,7 +35,7 @@ public class Transmitter implements ITransmitter {
 	 */
 	@Override
 	public boolean P111(String txt) throws IOException{
-		out.println(txt);
+		out.println("P111 \"" + txt + "\"");
 		if (in.readLine().equalsIgnoreCase("P111 A")){
 			return true;
 		} else {
@@ -49,7 +49,8 @@ public class Transmitter implements ITransmitter {
 	@Override
 	public String S() throws IOException{
 		out.println("S");
-		return in.readLine().substring(4);
+		String reply = in.readLine();
+		return reply.substring(9,(reply.length()-3));
 	}
 	
 	/* (non-Javadoc)
@@ -58,7 +59,8 @@ public class Transmitter implements ITransmitter {
 	@Override
 	public String T() throws IOException{
 		out.println("T");
-		return in.readLine().substring(4);
+		String reply = in.readLine();
+		return reply.substring(9,(reply.length()-3));
 	}
 	
 	/* (non-Javadoc)
@@ -68,7 +70,7 @@ public class Transmitter implements ITransmitter {
 	public boolean D(String txt) throws IOException{
 		boolean output = false; 
 		if (txt.length() < 8 ){
-			out.println(txt);
+			out.println("D \"" + txt + "\"");
 			if (in.readLine().equalsIgnoreCase("D A")){
 				output = true;
 			}
@@ -106,7 +108,7 @@ public class Transmitter implements ITransmitter {
 	@Override
 	public String listenST() throws IOException{
 		String reply = in.readLine();
-		return reply.substring(4,(reply.length()-3));
+		return reply.substring(9,(reply.length()-3));
 	}
 	
 }
