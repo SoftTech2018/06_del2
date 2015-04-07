@@ -9,6 +9,9 @@ public class Main {
 		Scanner menuScan = new Scanner(System.in);
 		
 		IMenu menu = new Menu(menuScan);
+		IMenuController menuCon = new MenuController(menu);
+		
+		menuCon.start();
 	}
 
 }
