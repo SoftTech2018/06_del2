@@ -90,4 +90,9 @@ public class Transmitter implements ITransmitter {
 			return false;
 		}
 	}
+	
+	public String ST() throws IOException{
+		out.println("ST");
+		return in.readLine(); // Muligvis find en substring!
+		}
 }

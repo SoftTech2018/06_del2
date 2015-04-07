@@ -1,6 +1,14 @@
 package wcuMain;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import functionality.IReadFiles;
+import functionality.ITransmitter;
 
 
 
@@ -9,11 +17,28 @@ public class MenuController implements IMenuController {
 	private State state;
 	private IMenu menu;
 	private IReadFiles fileAccess;
+	private ITransmitter trans;
 
-	public MenuController(IMenu menu, IReadFiles rf) {
+	public MenuController(IMenu menu, IReadFiles rf, String host, int port, ITransmitter trans) {
 		this.menu = menu;
 		this.fileAccess = rf;
-		this.state = State.START;
+		this.trans = trans;
+		connect(host, port);
+	}
+	
+	public void connect(String host, int port){
+		try (Socket	socket = new Socket(host, port);
+				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
+			trans.connected(in, out);
+			this.state = State.START;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
