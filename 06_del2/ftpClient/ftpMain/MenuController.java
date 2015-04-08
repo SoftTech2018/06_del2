@@ -24,7 +24,7 @@ public class MenuController implements IMenuController{
 			menu.retrieve(); //Henter fil fra ftp server
 			// Her skal der tilføjes en kommando til at kontakte ftp serveren
 		case "3":
-			menu.sensorMenu();
+			menu.sensorOverblik();
 			sensorChoice();
 		case "4":
 			//Afslut program
