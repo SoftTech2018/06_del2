@@ -1,6 +1,7 @@
 package wcuMain;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -46,7 +47,7 @@ public class MenuController implements IMenuController {
 	 */
 	@Override
 	public void action(String x) {
-		this.state = this.state.changeState(x,menu,fileAccess);
+		this.state = this.state.changeState(menu,fileAccess,trans);
 	}
 
 	/* (non-Javadoc)
@@ -83,34 +84,40 @@ public class MenuController implements IMenuController {
 		}
 		while(!state.equals(State.STOP));
 	}
+	
+	
 
 	public enum State {
 		START {
 			@Override
 			String desc(){
+				
 				return "Indtast operatørnummer: "; 
 			}
 			@Override
-			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
-				int input;
-				if(x.toLowerCase().equals("q")){
-					input = -2;
-				} else {
-					try{
-						input = Integer.parseUnsignedInt(x);
-					} catch (NumberFormatException e) {
-						menu.show("Forkert type input. Prøv igen");
-						input=-1;
-					}
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+				String input = null;
+				int inputInt = 0;
+				try{
+					input = trans.RM20("Indtast bruger ID:","","");
+					inputInt = Integer.parseUnsignedInt(input);
+					
+				} catch (NumberFormatException | IOException e) {
+					menu.show("Forkert type input. Prøv igen");
+					inputInt=-1;
 				}
-				switch(input) {
+					
+				if(input.toLowerCase().equals("q")){
+					inputInt = -2;
+				}
+				
+				switch(inputInt) {
 				case -1:					
 					return START;
 				case -2:					
 					return STOP;
 				default:
-					opr_nr = input;
-					menu.showSTART();
+					opr_nr = inputInt;
 					return GET_PROD_NR;
 				}
 			}
@@ -122,28 +129,26 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(String x,IMenu menu, IReadFiles fileAccess) {
-				int input;
-				if(x.toLowerCase()=="q"){
-					input = -2;
-				} else {
-					try{
-						input = Integer.parseUnsignedInt(x);
-					} catch (NumberFormatException e) {
-						menu.show("Forkert type input. Prøv igen");
-						input=-1;
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+				String input = null, product;
+				int inputInt = 0;
+				try{
+					input = trans.RM20("Indtast produkt ID:","","");
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					} else {
+						inputInt = Integer.parseUnsignedInt(input);
+						product = fileAccess.getProductName(inputInt);
+						if(trans.RM20("Bekræft produkt:",product,"?").equals(product)){
+							return SET_CONTAINER;
+						} else {
+							return GET_PROD_NR;
+						}
 					}
-				}
-				switch(input) {
-				case -1:					
+				} catch (NumberFormatException | IOException e) {
+					menu.show("Forkert type input. Prøv igen");
 					return GET_PROD_NR;
-				case -2:					
-					return STOP;
-				default:
-					vare_nr = input;
-					menu.showGET_PROD_NR();
-					return SET_CONTAINER;
-				}
+				}				
 			}
 
 
@@ -155,7 +160,7 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -177,7 +182,7 @@ public class MenuController implements IMenuController {
 				return "Afvej vare og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -196,7 +201,7 @@ public class MenuController implements IMenuController {
 				return "Fjern beholder og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
 				String input = x.toLowerCase();
 				switch(input) {
 				case "y":
@@ -215,11 +220,11 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(String x, IMenu menu, IReadFiles fileAccess) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
 				return STOP;
 			}
 		};
-		abstract State changeState(String x, IMenu menu, IReadFiles fileAccess);
+		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans);
 		abstract String desc();
 		int opr_nr,vare_nr;
 	}
