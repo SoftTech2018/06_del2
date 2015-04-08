@@ -23,7 +23,7 @@ public class ReadFiles implements IReadFiles {
 		store = new File("files/store.txt");
 		opr = new File("files/Operatoer.txt");
 
-		if (countLines() != 4) // Hvor mange linjer varer skal vi have?
+		if (countLines() != 9) // Hvor mange linjer varer skal vi have?
 			throw new FileNotFoundException();
 	}
 
@@ -43,7 +43,7 @@ public class ReadFiles implements IReadFiles {
 	 * @see functionality.IReadFiles#getProductName(int)
 	 */
 	@Override
-	public String getProductName(int productNumber) throws FileNotFoundException{
+	public String getProductName(int productNumber) throws IOException{
 		// Read store.txt, find produktnummeret og returner produktnavnet
 		String out = null;
 		String[] data = readFile(store);
@@ -55,8 +55,9 @@ public class ReadFiles implements IReadFiles {
 			} 
 			p++;
 		}
-		if (out.equals(null))
-			out = "Produkt ej fundet!";
+		System.out.println(out);
+		if (out==null)
+			throw new IOException();
 		return out;
 	}
 
@@ -154,7 +155,7 @@ public class ReadFiles implements IReadFiles {
 			} 
 			p++;
 		}
-		if (out.equals(null)) // Hvis operatøren ikke findes
+		if (out==null) // Hvis operatøren ikke findes
 			throw new IOException();
 		return out;
 	}

@@ -10,9 +10,10 @@ public interface IReadFiles {
 	 * @param productNumber Produktnummer som ønskes lokaliseret
 	 * @return Produktnavnet
 	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
 	public abstract String getProductName(int productNumber)
-			throws FileNotFoundException;
+			throws FileNotFoundException, IOException;
 
 	/**
 	 * Opdater log med information om afvejning.
