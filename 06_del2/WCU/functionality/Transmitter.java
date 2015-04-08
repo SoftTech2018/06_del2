@@ -24,7 +24,8 @@ public class Transmitter implements ITransmitter {
 		String reply = in.readLine();
 		String error = "ES";
 		if (reply.equalsIgnoreCase("RM20 B")){
-			return in.readLine().substring(7); // Skal muligvis være 6
+			String input = in.readLine();
+			return input.substring(7,(input.length()-1)); // Skal muligvis være 6
 		} else {
 			return error;
 		}

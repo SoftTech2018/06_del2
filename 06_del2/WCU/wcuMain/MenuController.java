@@ -33,6 +33,7 @@ public class MenuController implements IMenuController {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
 			trans.connected(in, out);
 			this.state = State.START;
+			start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

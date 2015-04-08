@@ -23,7 +23,7 @@ public class Main {
 		}
 		else {
 			port = 8000;
-			host = "localHost";			
+			host = "localhost";			
 		}
 		
 		IReadFiles rf = null;
