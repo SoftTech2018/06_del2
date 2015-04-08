@@ -7,43 +7,45 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
-
 public class ZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
 	
-	public void connect(String host, int port){
-		try (Socket	socket = new Socket(host, port);
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
-
-			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void setConnection(PrintWriter out, BufferedReader in){
+		this.out = out;
+		this.in = in;
 	}
 	
-	public String sendCommand(int sensor, String command, String parameter) throws IOException{
+	public String sendCommand(String command, int sensor, String parameter) throws IOException{
 		String message = command + " " + sensor;
+		String reply = null;
 		switch (command){
+		case "S":{ // Start måling
+			out.println(message);
+			reply = in.readLine();
+		}
+		break;
+		case "B":{ // Stop måling
+			out.println(message);
+			reply = in.readLine();
+		}
+		break;
+		case "T":{ // Returner måling
+			out.println(message);
+			reply = in.readLine().substring(2); // Antager svaret er noget lignende "T 1.54232"
+		}
+		break;
 		case "I":{ // Sæt samplingsinterval
-			message = message + " " + parameter; // F.eks. "S 222 12000"
+			out.println(message + " " + parameter); // F.eks. "I 222 12000" betyder at sensor 222 skal ændre samplingsinterval til 120000
+			reply = in.readLine();
 		}
 		break;
 		default:{
-			// S = start med at måle
-			// B = stop med at måle
-			// T = returner vægt
+			reply = "Forkert kommando modtaget";
 		}
 		}
-		out.println(message);
-		return in.readLine(); // Ok eller værdi af måling fra Zyboboardet
 		
+		return reply;
 	}
 
 }
