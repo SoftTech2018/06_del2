@@ -98,7 +98,7 @@ public class MenuController implements IMenuController {
 				String input = null,name;
 				int inputInt = 0;
 				try{
-					input = trans.RM20("Indtast bruger ID:","","");
+					input = trans.RM20("Tast bruger ID (10-16):","","");
 					System.out.println(input);
 					if(input.toLowerCase().equals("q")){
 						return STOP;
@@ -129,7 +129,7 @@ public class MenuController implements IMenuController {
 				String input = null, product;
 				int inputInt = 0;
 				try{
-					input = trans.RM20("Indtast produkt ID:","","");
+					input = trans.RM20("Tast produkt ID (1-9):","","");
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else {
