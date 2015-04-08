@@ -140,4 +140,11 @@ public class ReadFiles implements IReadFiles {
 		}
 	}
 
+	@Override
+	public String getOpr(int oprNumber) throws IOException,
+			FileNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

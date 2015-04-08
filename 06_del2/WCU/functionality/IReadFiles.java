@@ -1,6 +1,7 @@
 package functionality;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface IReadFiles {
 
@@ -41,5 +42,7 @@ public interface IReadFiles {
 	 */
 	public abstract double getProductInventory(int productNumber)
 			throws FileNotFoundException;
+	
+	public abstract String getOpr(int oprNumber) throws IOException, FileNotFoundException;
 
 }
