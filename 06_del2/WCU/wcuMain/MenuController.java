@@ -94,7 +94,7 @@ public class MenuController implements IMenuController {
 				return "Indtast operatørnummer: "; 
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null,name;
 				int inputInt = 0;
 				try{
@@ -107,7 +107,7 @@ public class MenuController implements IMenuController {
 					name = fileAccess.getOpr(inputInt);
 					input = trans.RM20("Korrekt bruger:",name,"?");
 					if(input.equals(name)){
-						Imc.setOprID(inputInt);
+						mc.setOprID(inputInt);
 						return GET_PROD_NR;
 					} else {
 						return START;
@@ -125,7 +125,7 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, product;
 				int inputInt = 0;
 				try{
@@ -136,7 +136,7 @@ public class MenuController implements IMenuController {
 						inputInt = Integer.parseUnsignedInt(input);
 						product = fileAccess.getProductName(inputInt);
 						if(trans.RM20("Bekræft produkt:",product,"?").equals(product)){
-							Imc.setVareID(inputInt);
+							mc.setVareID(inputInt);
 							return SET_CONTAINER;
 						} else {
 							return GET_PROD_NR;
@@ -155,7 +155,7 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Påsæt beholder, kvittér:","OK","?");
@@ -163,7 +163,7 @@ public class MenuController implements IMenuController {
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
-						Imc.setTara(Double.parseDouble(trans.T()));
+						mc.setTara(Double.parseDouble(trans.T()));
 						return ADD_PRODUCT;
 					} else {
 						return SET_CONTAINER;
@@ -180,7 +180,7 @@ public class MenuController implements IMenuController {
 				return "Afvej vare og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Afvej vare og kvittér:","OK","?");
@@ -189,7 +189,7 @@ public class MenuController implements IMenuController {
 					} else if (input.equals(answer)) {
 						trans.P111("Efter vejning, kvittér med dør-knap");
 						trans.startST(true);
-						Imc.setAfvejning(Double.parseDouble(trans.listenST()));
+						mc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
 						trans.P111("");
 						return REMOVE_CONTAINER;
@@ -209,15 +209,15 @@ public class MenuController implements IMenuController {
 				return "Fjern beholder, kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Fjern beholder, kvittér:","OK","?");
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
-						fileAccess.updProductInventory(Imc.getVareID(), Imc.getAfvejning());
-						fileAccess.writeLog(Imc.getOprID(), Imc.getVareID(), Imc.getTara(), Imc.getAfvejning());
+						fileAccess.updProductInventory(mc.getVareID(), mc.getAfvejning());
+						fileAccess.writeLog(mc.getOprID(), mc.getVareID(), mc.getTara(), mc.getAfvejning());
 						return RESTART;
 					} else {
 						return REMOVE_CONTAINER;
@@ -237,7 +237,7 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Foretag ny vejning?","OK","");
@@ -262,43 +262,43 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				return STOP;
 			}
 		};
-		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc);
+		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc);
 		abstract String desc();		
 	}
 
-	public int getOprID(){
+	private int getOprID(){
 		return opr_nr;
 	}
 	
-	public void setOprID(int id){
+	private void setOprID(int id){
 		this.opr_nr=id;
 	}
 	
-	public int getVareID(){
+	private int getVareID(){
 		return vare_nr;
 	}
 	
-	public void setVareID(int id){
+	private void setVareID(int id){
 		this.vare_nr=id;
 	}
 	
-	public double getAfvejning(){
+	private double getAfvejning(){
 		return afvejning;
 	}
 	
-	public void setAfvejning(double afvejning){
+	private void setAfvejning(double afvejning){
 		this.afvejning=afvejning;
 	}
 	
-	public double getTara(){
+	private double getTara(){
 		return tara;
 	}
 	
-	public void setTara(double tara){
+	private void setTara(double tara){
 		this.tara=tara;
 	}
 }
