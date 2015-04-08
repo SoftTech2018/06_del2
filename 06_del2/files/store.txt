@@ -1,4 +1,9 @@
-10,Linje1,67.49249999999998
-14,Linje2,15.23
-0,Linje3,0.124
-12345,Linje4,35.0001
+1,Facilisis,100
+2,Dissentias,100
+3,Comprehensam,100
+4,Oblique,100
+5,Voluptaria,100
+6,Eloquentiam,100
+7,Sensibus,100
+8,Deseruisse,100
+9,Maiestatis,100

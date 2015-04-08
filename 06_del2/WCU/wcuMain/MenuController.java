@@ -130,6 +130,7 @@ public class MenuController implements IMenuController {
 						inputInt = Integer.parseUnsignedInt(input);
 						product = fileAccess.getProductName(inputInt);
 						if(trans.RM20("Bekræft produkt:",product,"?").equals(product)){
+							Imc.setVareID(inputInt);
 							return SET_CONTAINER;
 						} else {
 							return GET_PROD_NR;
