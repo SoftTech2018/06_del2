@@ -16,10 +16,13 @@ public class ReadFiles implements IReadFiles {
 
 	private File log;
 	private File store;
+	private File opr;
 
 	public ReadFiles() throws FileNotFoundException{
 		log = new File("files/Log.txt");
 		store = new File("files/store.txt");
+		opr = new File("files/Operatoer.txt");
+		
 		if (countLines() != 4) // Hvor mange linjer varer skal vi have?
 			throw new FileNotFoundException();
 	}
@@ -143,8 +146,19 @@ public class ReadFiles implements IReadFiles {
 	@Override
 	public String getOpr(int oprNumber) throws IOException,
 			FileNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		String out = null;
+		String[] data = readFile(opr);
+		int p = 0;
+		while (p < data.length){
+			String[] line = data[p].split(",");
+			if (oprNumber == Integer.parseInt(line[0])){
+				out = line[1];
+			} 
+			p++;
+		}
+		if (out.equals(null)) // Hvis operatøren ikke findes
+			throw new IOException();
+		return out;
 	}
 
 }
