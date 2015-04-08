@@ -1,7 +1,6 @@
 package wcuMain;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -19,6 +18,8 @@ public class MenuController implements IMenuController {
 	private IMenu menu;
 	private IReadFiles fileAccess;
 	private ITransmitter trans;
+	private int opr_nr,vare_nr;
+	private double afvejning;
 
 	public MenuController(IMenu menu, IReadFiles rf, String host, int port, ITransmitter trans) {
 		this.menu = menu;
@@ -46,7 +47,7 @@ public class MenuController implements IMenuController {
 	 */
 	@Override
 	public void action() {
-		this.state = this.state.changeState(menu,fileAccess,trans);
+		this.state = this.state.changeState(menu,fileAccess,trans,this);
 	}
 
 	/* (non-Javadoc)
@@ -93,11 +94,12 @@ public class MenuController implements IMenuController {
 				return "Indtast operatørnummer: "; 
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				String input = null;
 				int inputInt = 0;
 				try{
 					input = trans.RM20("Indtast bruger ID:","","");
+					System.out.println(input);
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					}
@@ -106,7 +108,7 @@ public class MenuController implements IMenuController {
 					menu.show("Forkert type input. Prøv igen");
 					return START;
 				}
-				opr_nr = inputInt;
+				Imc.setOprID(inputInt);
 				return GET_PROD_NR;				
 			}
 		},
@@ -117,7 +119,7 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				String input = null, product;
 				int inputInt = 0;
 				try{
@@ -146,10 +148,10 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				String input = null, answer = "OK";
 				try{
-					input = trans.RM20("Påsæt beholder og kvittér:","OK","?");
+					input = trans.RM20("Påsæt beholder, kvittér:","OK","?");
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
@@ -170,7 +172,7 @@ public class MenuController implements IMenuController {
 				return "Afvej vare og kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Afvej vare og kvittér:","OK","?");
@@ -179,7 +181,7 @@ public class MenuController implements IMenuController {
 					} else if (input.equals(answer)) {
 						trans.P111("Efter vejning, kvittér med dør-knap");
 						trans.startST(true);
-						afvejning = Double.parseDouble(trans.listenST());
+						Imc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
 						return REMOVE_CONTAINER;
 					} else {
@@ -195,18 +197,18 @@ public class MenuController implements IMenuController {
 		REMOVE_CONTAINER {
 			@Override
 			String desc() {
-				return "Fjern beholder og kvittér herefter (y/n)";
+				return "Fjern beholder, kvittér herefter (y/n)";
 			}
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				String input = null, answer = "OK";
 				try{
-					input = trans.RM20("Fjern beholder og kvittér:","OK","?");
+					input = trans.RM20("Fjern beholder, kvittér:","OK","?");
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
-						fileAccess.updProductInventory(vare_nr, afvejning);
-						fileAccess.writeLog(opr_nr, vare_nr, afvejning);
+						fileAccess.updProductInventory(Imc.getVareID(), Imc.getAfvejning());
+						fileAccess.writeLog(Imc.getOprID(), Imc.getVareID(), Imc.getAfvejning());
 						return STOP;
 					} else {
 						return REMOVE_CONTAINER;
@@ -225,17 +227,37 @@ public class MenuController implements IMenuController {
 			}
 
 			@Override
-			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
 				return STOP;
 			}
 		};
-		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans);
+		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc);
 		abstract String desc();
-		int opr_nr,vare_nr;
-		double afvejning;
+		
+		
 	}
 
-
-
-
+	public int getOprID(){
+		return opr_nr;
+	}
+	
+	public void setOprID(int id){
+		this.opr_nr=id;
+	}
+	
+	public int getVareID(){
+		return vare_nr;
+	}
+	
+	public void setVareID(int id){
+		this.vare_nr=id;
+	}
+	
+	public double getAfvejning(){
+		return afvejning;
+	}
+	
+	public void setAfvejning(double afvejning){
+		this.afvejning=afvejning;
+	}
 }

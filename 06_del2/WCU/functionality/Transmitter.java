@@ -25,7 +25,7 @@ public class Transmitter implements ITransmitter {
 		String error = "ES";
 		if (reply.equalsIgnoreCase("RM20 B")){
 			String input = in.readLine();
-			return input.substring(7,(input.length()-1)); // Skal muligvis være 6
+			return input.substring(8,(input.length()-1)); // Skal muligvis være 6
 		} else {
 			return error;
 		}
@@ -61,7 +61,7 @@ public class Transmitter implements ITransmitter {
 	public String T() throws IOException{
 		out.println("T");
 		String reply = in.readLine();
-		return reply.substring(9,(reply.length()-3));
+		return reply.substring(8);
 	}
 	
 	/* (non-Javadoc)
@@ -108,6 +108,7 @@ public class Transmitter implements ITransmitter {
 	
 	@Override
 	public String listenST() throws IOException{
+		out.println("ST");
 		String reply = in.readLine();
 		return reply.substring(9,(reply.length()-3));
 	}
