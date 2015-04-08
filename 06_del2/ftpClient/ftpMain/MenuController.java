@@ -1,17 +1,19 @@
 package ftpMain;
 
-import java.awt.Choice;
-import java.util.Scanner;
+
 
 public class MenuController implements IMenuController{
 
 	private IMenu menu;
+	private IZyboTransmitter zbtr;
 
 	
 	
 	
-	public MenuController(IMenu menu) { // hvorfor kan den ikke være public?
+	public MenuController(IMenu menu, IZyboTransmitter zbtr) { 
 		this.menu = menu;
+		this.zbtr = zbtr;
+		
 	}
 	
 	public void choice() {
@@ -20,31 +22,52 @@ public class MenuController implements IMenuController{
 		case "1":
 			menu.list(); //Viser fil-liste på ftp server
 			// Her skal der tilføjes en kommando til at kontakte ftp serveren
+			break;
 		case "2":
 			menu.retrieve(); //Henter fil fra ftp server
 			// Her skal der tilføjes en kommando til at kontakte ftp serveren
+			break;
 		case "3":
-			menu.sensorOverblik();
-			sensorChoice();
+			String input = menu.sensorOverblik();
+			if (input.equals("e")) {
+				choice();
+			}
+			else {
+			specificSensor(input);
+			}
+			break;
 		case "4":
 			//Afslut program
+			break;
 		default:
 			System.out.println("Forkert indtastning - prøv igen!");
 			choice();
 		}	
 	}
 	
-	public void sensorChoice() {
-		switch (menu.sensorMenu()) {
-		case "1":
-			//Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
-			//Der skal være flere end 1 switch case
-		case "7": //kalder startup-menuen
-			choice();
-		default:
+
+		
 	
+	public void specificSensor(String sensor) { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
+			
+		String input = menu.sensorMenu();
+		
+		if (input.equals("e")) {
+			choice();
 		}
+		
+		if(input.equals("1")) {
+			String sampling = menu.setSampling();
+			zbtr.sendCommand(input, Integer.parseInt(sensor), sampling);
+		}
+		else {
+			zbtr.sendCommand(input, Integer.parseInt(sensor), null);
+		}
+		
 	}
+
+
+	
 	
 	//MenuController skal bruge en måde at modtage fil-listen på og videresende til Menu - evt et array?
 }

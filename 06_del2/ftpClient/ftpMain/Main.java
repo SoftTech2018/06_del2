@@ -2,6 +2,8 @@ package ftpMain;
 
 import java.util.Scanner;
 
+import functionality.ZyboTransmitter;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -9,9 +11,13 @@ public class Main {
 		Scanner menuScan = new Scanner(System.in);
 		
 		IMenu menu = new Menu(menuScan);
-		IMenuController menuCon = new MenuController(menu);
+		IZyboTransmitter zbtr = new ZyboTransmitter();
+		IMenuController menuCon = new MenuController(menu, zbtr);
 		
-		menuCon.start();
+		
+		menuCon.choice();
+		
+		
 	}
 
 }

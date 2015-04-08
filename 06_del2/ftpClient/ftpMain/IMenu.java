@@ -12,4 +12,15 @@ public interface IMenu {
 
 	String sensorMenu();
 
+	String sensorOverblik();
+
+	String setSampling();
+
+	
+
+
+	
+
+	
+
 }
