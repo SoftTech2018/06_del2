@@ -159,12 +159,14 @@ public class MenuController implements IMenuController {
 				String input = null, answer = "OK";
 				try{
 					input = trans.RM20("Påsæt beholder, kvittér:","OK","?");
+					System.out.println(input);
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
-						Imc.setTara(Integer.parseUnsignedInt(trans.T()));
+						Imc.setTara(Double.parseDouble(trans.T()));
 						return ADD_PRODUCT;
 					} else {
+						System.out.println("else");
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
