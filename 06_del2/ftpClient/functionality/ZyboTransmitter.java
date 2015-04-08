@@ -15,11 +15,6 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
 	
-	public void setConnection(PrintWriter out, BufferedReader in){
-		this.out = out;
-		this.in = in;
-	}
-	
 	/**
 	 * Sender kommando til Zybo-board for en specifik sensor
 	 * @param command S = Start måling, B = Stop måling, T = Returner måling, I = Sæt samplingsinterval
@@ -75,6 +70,12 @@ public class ZyboTransmitter implements IZyboTransmitter {
 			sensorList.add(sensor);
 		}
 		return sensorList;
+	}
+
+	@Override
+	public void connected(BufferedReader in, PrintWriter out) {
+		this.out = out;
+		this.in = in;		
 	}
 
 	

@@ -166,7 +166,6 @@ public class MenuController implements IMenuController {
 						Imc.setTara(Double.parseDouble(trans.T()));
 						return ADD_PRODUCT;
 					} else {
-						System.out.println("else");
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
@@ -192,6 +191,7 @@ public class MenuController implements IMenuController {
 						trans.startST(true);
 						Imc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
+						trans.P111("");
 						return REMOVE_CONTAINER;
 					} else {
 						return ADD_PRODUCT;
@@ -218,7 +218,7 @@ public class MenuController implements IMenuController {
 					} else if (input.equals(answer)) {
 						fileAccess.updProductInventory(Imc.getVareID(), Imc.getAfvejning());
 						fileAccess.writeLog(Imc.getOprID(), Imc.getVareID(), Imc.getTara(), Imc.getAfvejning());
-						return STOP;
+						return RESTART;
 					} else {
 						return REMOVE_CONTAINER;
 					}
@@ -228,6 +228,32 @@ public class MenuController implements IMenuController {
 					return REMOVE_CONTAINER	;
 				}
 			}
+		},
+		RESTART {
+			
+			@Override
+			String desc() {
+				return null;
+			}
+
+			@Override
+			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
+				String input = null, answer = "OK";
+				try{
+					input = trans.RM20("Foretag ny vejning?","OK","");
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					} else if (input.equals(answer)) {
+						return GET_PROD_NR;
+					} else {
+						return STOP;
+					}
+					
+				} catch (NumberFormatException | IOException e) {
+					menu.show("Forkert type input. Prøv igen");
+					return RESTART;
+				}
+			}			
 		},
 		STOP {
 			@Override

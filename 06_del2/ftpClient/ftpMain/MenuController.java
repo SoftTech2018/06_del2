@@ -1,31 +1,45 @@
 package ftpMain;
 
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class MenuController implements IMenuController{
 
 	private IMenu menu;
 	private IZyboTransmitter zbtr;
-
 	
-	
-	
-	public MenuController(IMenu menu, IZyboTransmitter zbtr) { 
+	public MenuController(IMenu menu, IZyboTransmitter zbtr, String host, int port){ 
 		this.menu = menu;
 		this.zbtr = zbtr;
-		
+		connectZybo(host, port);
 	}
 	
-	public void choice() {
-		
+	public void connectZybo(String host, int port){
+		try (Socket	socket = new Socket(host, port);
+				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
+			zbtr.connected(in, out);
+			choice();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void choice() throws NumberFormatException, IOException {	
 		switch (menu.showMenu()) {
 		case "1":
-			menu.list(); //Viser fil-liste på ftp server
-			// Her skal der tilføjes en kommando til at kontakte ftp serveren
+			menu.list(); //Viser fil-liste pï¿½ ftp server
+			// Her skal der tilfï¿½jes en kommando til at kontakte ftp serveren
 			break;
 		case "2":
 			menu.retrieve(); //Henter fil fra ftp server
-			// Her skal der tilføjes en kommando til at kontakte ftp serveren
+			// Her skal der tilfï¿½jes en kommando til at kontakte ftp serveren
 			break;
 		case "3":
 			String input = menu.sensorOverblik();
@@ -40,34 +54,22 @@ public class MenuController implements IMenuController{
 			//Afslut program
 			break;
 		default:
-			System.out.println("Forkert indtastning - prøv igen!");
+			System.out.println("Forkert indtastning - prï¿½v igen!");
 			choice();
 		}	
-	}
+	}	
 	
-
-		
-	
-	public void specificSensor(String sensor) { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
-			
-		String input = menu.sensorMenu();
-		
+	public void specificSensor(String sensor) throws NumberFormatException, IOException { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
+		String input = menu.sensorMenu();	
 		if (input.equals("e")) {
 			choice();
-		}
-		
+		}		
 		if(input.equals("1")) {
 			String sampling = menu.setSampling();
 			zbtr.sendCommand(input, Integer.parseInt(sensor), sampling);
-		}
-		else {
+		} else {
 			zbtr.sendCommand(input, Integer.parseInt(sensor), null);
 		}
-		
 	}
-
-
-	
-	
-	//MenuController skal bruge en måde at modtage fil-listen på og videresende til Menu - evt et array?
+	//MenuController skal bruge en mï¿½de at modtage fil-listen pï¿½ og videresende til Menu - evt et array?
 }
