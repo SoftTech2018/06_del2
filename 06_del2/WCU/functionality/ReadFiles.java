@@ -22,7 +22,7 @@ public class ReadFiles implements IReadFiles {
 		log = new File("files/Log.txt");
 		store = new File("files/store.txt");
 		opr = new File("files/Operatoer.txt");
-		
+
 		if (countLines() != 4) // Hvor mange linjer varer skal vi have?
 			throw new FileNotFoundException();
 	}
@@ -103,7 +103,6 @@ public class ReadFiles implements IReadFiles {
 	 */
 	@Override
 	public double getProductInventory(int productNumber) throws FileNotFoundException{
-		// find mængde på lager for det pågældende produkt
 		double out = -1;
 		String[] data = readFile(store);
 		int p = 0;
@@ -120,12 +119,11 @@ public class ReadFiles implements IReadFiles {
 	private String[] readFile(File fil) throws FileNotFoundException{
 		List<String> data = new ArrayList<String>();
 		String linje = null;
-		try (BufferedReader br = new BufferedReader(new FileReader(store));){
+		try (BufferedReader br = new BufferedReader(new FileReader(fil));){
 			while ((linje = br.readLine()) != null){
 				data.add(linje);
 			}
 		} catch (IOException e) {
-			e.printStackTrace(); // Fjernes i endeligt program
 			throw new FileNotFoundException();
 		}
 		return data.toArray(new String[data.size()]);
@@ -145,7 +143,7 @@ public class ReadFiles implements IReadFiles {
 
 	@Override
 	public String getOpr(int oprNumber) throws IOException,
-			FileNotFoundException {
+	FileNotFoundException {
 		String out = null;
 		String[] data = readFile(opr);
 		int p = 0;
