@@ -65,13 +65,13 @@ public class ReadFiles implements IReadFiles {
 	 * @see functionality.IReadFiles#writeLog(int, int, double, double)
 	 */
 	@Override
-	public void writeLog(int oprNr, int vareNr, double afvejet) throws FileNotFoundException{
+	public void writeLog(int oprNr, int vareNr, double tara, double afvejet) throws FileNotFoundException{
 		// tilføj en linje til Log.txt
 		//Dato, Tid, Operatørnummer, varenummer, afvejning (i kg), tilbage på lager (i kg)
 		//I denne fil ændres eksisterende data aldrig – der ”appendes” altid. 
 		try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(log, true)));){
 			java.util.Date date = new java.util.Date();						
-			out.println(new Timestamp(date.getTime())+","+oprNr+","+vareNr+","+afvejet+","+getProductInventory(vareNr));
+			out.println(new Timestamp(date.getTime())+","+oprNr+","+vareNr+","+tara+","+afvejet+","+getProductInventory(vareNr));
 		}catch (IOException e) {
 			throw new FileNotFoundException();
 		}

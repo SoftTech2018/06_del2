@@ -18,6 +18,10 @@ public interface IMenuController {
 	
 	public abstract void setVareID(int id);
 	
+	public double getTara();
+	
+	public void setTara(double tara);
+	
 	public abstract double getAfvejning();
 	
 	public abstract void setAfvejning(double afvejning);

@@ -19,7 +19,7 @@ public class MenuController implements IMenuController {
 	private IReadFiles fileAccess;
 	private ITransmitter trans;
 	private int opr_nr,vare_nr;
-	private double afvejning;
+	private double afvejning,tara;
 
 	public MenuController(IMenu menu, IReadFiles rf, String host, int port, ITransmitter trans) {
 		this.menu = menu;
@@ -162,7 +162,7 @@ public class MenuController implements IMenuController {
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					} else if (input.equals(answer)) {
-						trans.T();
+						Imc.setTara(Integer.parseUnsignedInt(trans.T()));
 						return ADD_PRODUCT;
 					} else {
 						return SET_CONTAINER;
@@ -215,7 +215,7 @@ public class MenuController implements IMenuController {
 						return STOP;
 					} else if (input.equals(answer)) {
 						fileAccess.updProductInventory(Imc.getVareID(), Imc.getAfvejning());
-						fileAccess.writeLog(Imc.getOprID(), Imc.getVareID(), Imc.getAfvejning());
+						fileAccess.writeLog(Imc.getOprID(), Imc.getVareID(), Imc.getTara(), Imc.getAfvejning());
 						return STOP;
 					} else {
 						return REMOVE_CONTAINER;
@@ -239,9 +239,7 @@ public class MenuController implements IMenuController {
 			}
 		};
 		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc);
-		abstract String desc();
-		
-		
+		abstract String desc();		
 	}
 
 	public int getOprID(){
@@ -266,5 +264,13 @@ public class MenuController implements IMenuController {
 	
 	public void setAfvejning(double afvejning){
 		this.afvejning=afvejning;
+	}
+	
+	public double getTara(){
+		return tara;
+	}
+	
+	public void setTara(double tara){
+		this.tara=tara;
 	}
 }
