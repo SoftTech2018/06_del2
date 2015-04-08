@@ -191,6 +191,7 @@ public class MenuController implements IMenuController {
 						trans.startST(true);
 						Imc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
+						trans.P111("");
 						return REMOVE_CONTAINER;
 					} else {
 						return ADD_PRODUCT;
@@ -228,7 +229,6 @@ public class MenuController implements IMenuController {
 				}
 			}
 		},
-		
 		RESTART {
 			
 			@Override
