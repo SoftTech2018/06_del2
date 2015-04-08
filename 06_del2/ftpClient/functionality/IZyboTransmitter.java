@@ -1,4 +1,4 @@
-package ftpMain;
+package functionality;
 
 import java.io.BufferedReader;
 import java.io.IOException;

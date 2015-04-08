@@ -2,6 +2,7 @@ package ftpMain;
 
 import java.util.Scanner;
 
+import functionality.IZyboTransmitter;
 import functionality.ZyboTransmitter;
 
 public class Main {

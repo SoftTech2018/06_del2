@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import functionality.IZyboTransmitter;
+
 public class MenuController implements IMenuController{
 
 	private IMenu menu;
