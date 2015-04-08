@@ -18,31 +18,27 @@ public class Menu implements IMenu {
 		System.out.println("Indtast 2 for retrieve-kommando");
 		System.out.println("Indtast 3 for sensor-menu");
 		System.out.println("Indtast 4 for at afslutte programmet");
-		out = menuScan.next();
+		out = menuScan.nextLine();
 		return out;
 		
 	}
 	
-	public String list(String list) { //String list returnerer listen af filer på FTP-serveren, omdannet til strings
-		System.out.println("Du har valgt list-kommandoen, du har nu følgende muligheder: ");
+	public void list(String list, String fileArray[]) { //String list returnerer listen af filer på FTP-serveren, omdannet til strings
+		System.out.println("Liste over filer på ftp-server: ");
+		for (int i = 0; i < fileArray.length; i++) {
+			System.out.println(fileArray[i]);
+		}
 		System.out.println(list); //Her skal der laves en for løkke der printer alle filtitlerne ud
-		System.out.println("Indtast 2 for retrieve-kommando");
-		System.out.println("Indtast 3 for overblik over sensorere i systemet");
-		System.out.println("Indtast 4 for at afslutte programmet");
-		
-		String out;
-		
-		out = menuScan.next();
-		return out;
+	
 	}
 	
-	public void retrieve(File file, int fileArray[]) { //Hvilken type skal filen være??, fileArray bruges i menuControlleren til at holde styr på filerne
+	public void retrieve(File file, String fileArray[]) { //Hvilken type skal filen være??, fileArray bruges i menuControlleren til at holde styr på filerne
 		for (int i = 0; i < fileArray.length; i++) {
 			System.out.println(fileArray[i]);
 		}
 		System.out.println("Indtast hvilket filnumer du vil hente");
 		String out;
-		out = menuScan.next();
+		out = menuScan.nextLine();
 		for (int i = 0; i < fileArray.length; i++) {
 			if (out == fileArray[i]) { //Hvad skal der stå i stedet for?
 			System.out.println("Du har hentet fil nr" + fileArray[i]); //højst sandsynligt ikke den optimale løsning
@@ -53,14 +49,15 @@ public class Menu implements IMenu {
 	}
 	public String sensorOverblik() {
 		String out;
-		System.out.println("Senson overblik for alle sensorere i systemet");
+		System.out.println("Sensor overblik for alle sensorere i systemet");
 		System.out.println("Indtast tal for hvilken sensor du vil bruge");
 		System.out.println("Tast 1 for sensor 1");
 		System.out.println("Tast 2 for sensor 4");
 		System.out.println("Tast 3 for sensor 222");
 		System.out.println("Tast 4 for sensor 7");
+		System.out.println("Tast e for at gå tilbage til hovedmenu");
 		
-		out = menuScan.next();
+		out = menuScan.nextLine();
 		return out;
 	}
 	
@@ -71,8 +68,29 @@ public class Menu implements IMenu {
 		System.out.println("2: Bed sensor om at mindske sit samplingsinterval.");
 		System.out.println("3: Bed sensor om at begynde måling.");
 		System.out.println("4: Bed sensor om at stoppe måling.");
-		
-		out = menuScan.next();
+		System.out.println("e: Gå tilbage til hovedmenu.");
+		out = menuScan.nextLine();
 		return out;
 }
+	public String setSampling() {
+		String out;
+		System.out.println("Hvor meget vil du ændre samplingsintervallet med?");
+		out = menuScan.nextLine();
+		return out;
+	}
+
+	@Override
+	public void list() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void retrieve() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
 }

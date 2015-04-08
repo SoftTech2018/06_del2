@@ -9,7 +9,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZyboTransmitter {
+import ftpMain.IZyboTransmitter;
+
+public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
 	
@@ -74,5 +76,7 @@ public class ZyboTransmitter {
 		}
 		return sensorList;
 	}
+
+	
 
 }
