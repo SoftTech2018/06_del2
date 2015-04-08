@@ -21,8 +21,7 @@ public interface IReadFiles {
 	 * @param lager Restmængden på lageret
 	 * @throws FileNotFoundException
 	 */
-	public abstract void writeLog(int oprNr, int vareNr, double afvejet,
-			double lager) throws FileNotFoundException;
+	public abstract void writeLog(int oprNr, int vareNr, double afvejet) throws FileNotFoundException;
 
 	/**
 	 * Opdater lagerstatus for et produkt

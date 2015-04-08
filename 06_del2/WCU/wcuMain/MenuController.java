@@ -161,18 +161,24 @@ public class MenuController implements IMenuController {
 
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
-				String input = x.toLowerCase();
-				switch(input) {
-				case "y":
+				String input = null, answer = "OK";
+				try{
+					input = trans.RM20("Påsæt beholder og kvittér:","OK","?");
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					} else if (input.equals(answer)) {
+						trans.T();
+						return ADD_PRODUCT;
+					} else {
+						return SET_CONTAINER;
+					}
 					
-					return ADD_PRODUCT;
-				case "q":
-					return STOP;
-				default:
+				} catch (NumberFormatException | IOException e) {
 					menu.show("Forkert type input. Prøv igen");
 					return SET_CONTAINER;
-				}
+				}				
 			}
+			
 
 
 		},
@@ -183,13 +189,22 @@ public class MenuController implements IMenuController {
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
-				String input = x.toLowerCase();
-				switch(input) {
-				case "y":
-					return REMOVE_CONTAINER;
-				case "q":
-					return STOP;
-				default:
+				String input = null, answer = "OK";
+				try{
+					input = trans.RM20("Afvej vare og kvittér:","OK","?");
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					} else if (input.equals(answer)) {
+						trans.P111("Efter vejning, kvittér med dør-knap");
+						trans.startST(true);
+						afvejning = Double.parseDouble(trans.listenST());
+						trans.startST(false);
+						return REMOVE_CONTAINER;
+					} else {
+						return ADD_PRODUCT;
+					}
+					
+				} catch (NumberFormatException | IOException e) {
 					menu.show("Forkert type input. Prøv igen");
 					return ADD_PRODUCT;
 				}
@@ -202,14 +217,22 @@ public class MenuController implements IMenuController {
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans) {
-				String input = x.toLowerCase();
-				switch(input) {
-				case "y":
-					return STOP;
-				case "q":
-					return STOP;
-				default:
-					return REMOVE_CONTAINER;
+				String input = null, answer = "OK";
+				try{
+					input = trans.RM20("Fjern beholder og kvittér:","OK","?");
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					} else if (input.equals(answer)) {
+						fileAccess.updProductInventory(vare_nr, afvejning);
+						fileAccess.writeLog(opr_nr, vare_nr, afvejning);
+						return STOP;
+					} else {
+						return REMOVE_CONTAINER;
+					}
+					
+				} catch (NumberFormatException | IOException e) {
+					menu.show("Forkert type input. Prøv igen");
+					return REMOVE_CONTAINER	;
 				}
 			}
 		},
@@ -227,6 +250,7 @@ public class MenuController implements IMenuController {
 		abstract State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans);
 		abstract String desc();
 		int opr_nr,vare_nr;
+		double afvejning;
 	}
 
 
