@@ -23,7 +23,7 @@ public class ReadFiles implements IReadFiles {
 		store = new File("files/store.txt");
 		opr = new File("files/Operatoer.txt");
 
-		if (countLines() != 4) // Hvor mange linjer varer skal vi have?
+		if (countLines() != 9) // Hvor mange linjer varer skal vi have?
 			throw new FileNotFoundException();
 	}
 
@@ -43,7 +43,7 @@ public class ReadFiles implements IReadFiles {
 	 * @see functionality.IReadFiles#getProductName(int)
 	 */
 	@Override
-	public String getProductName(int productNumber) throws FileNotFoundException{
+	public String getProductName(int productNumber) throws IOException{
 		// Read store.txt, find produktnummeret og returner produktnavnet
 		String out = null;
 		String[] data = readFile(store);
@@ -55,8 +55,9 @@ public class ReadFiles implements IReadFiles {
 			} 
 			p++;
 		}
-		if (out.equals(null))
-			out = "Produkt ej fundet!";
+		System.out.println(out);
+		if (out==null)
+			throw new IOException();
 		return out;
 	}
 
@@ -64,13 +65,13 @@ public class ReadFiles implements IReadFiles {
 	 * @see functionality.IReadFiles#writeLog(int, int, double, double)
 	 */
 	@Override
-	public void writeLog(int oprNr, int vareNr, double afvejet) throws FileNotFoundException{
+	public void writeLog(int oprNr, int vareNr, double tara, double afvejet) throws FileNotFoundException{
 		// tilføj en linje til Log.txt
 		//Dato, Tid, Operatørnummer, varenummer, afvejning (i kg), tilbage på lager (i kg)
 		//I denne fil ændres eksisterende data aldrig – der ”appendes” altid. 
 		try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(log, true)));){
 			java.util.Date date = new java.util.Date();						
-			out.println(new Timestamp(date.getTime())+","+oprNr+","+vareNr+","+afvejet+","+getProductInventory(vareNr));
+			out.println(new Timestamp(date.getTime())+","+oprNr+","+vareNr+","+tara+","+afvejet+","+getProductInventory(vareNr));
 		}catch (IOException e) {
 			throw new FileNotFoundException();
 		}
@@ -154,7 +155,7 @@ public class ReadFiles implements IReadFiles {
 			} 
 			p++;
 		}
-		if (out.equals(null)) // Hvis operatøren ikke findes
+		if (out==null) // Hvis operatøren ikke findes
 			throw new IOException();
 		return out;
 	}

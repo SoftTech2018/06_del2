@@ -6,4 +6,4 @@
 6,Eloquentiam,100
 7,Sensibus,100
 8,Deseruisse,100
-9,Maiestatis,100
+9,Maiestatis,98.7481
