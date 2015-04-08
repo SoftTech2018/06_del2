@@ -2,7 +2,7 @@ package wcuMain;
 
 public interface IMenuController {
 
-	public abstract void action(String x);
+	public abstract void action();
 
 	public abstract String getInput();
 

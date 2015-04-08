@@ -34,10 +34,8 @@ public class MenuController implements IMenuController {
 			trans.connected(in, out);
 			this.state = State.START;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -46,7 +44,7 @@ public class MenuController implements IMenuController {
 	 * @see wcuMain.IMenuController#action(java.lang.String)
 	 */
 	@Override
-	public void action(String x) {
+	public void action() {
 		this.state = this.state.changeState(menu,fileAccess,trans);
 	}
 
@@ -80,7 +78,7 @@ public class MenuController implements IMenuController {
 	public void loop(){
 		do{
 			menu.show(state.desc());
-			action(getInput());		
+			action();		
 		}
 		while(!state.equals(State.STOP));
 	}
@@ -90,8 +88,7 @@ public class MenuController implements IMenuController {
 	public enum State {
 		START {
 			@Override
-			String desc(){
-				
+			String desc(){				
 				return "Indtast operatørnummer: "; 
 			}
 			@Override
@@ -100,26 +97,16 @@ public class MenuController implements IMenuController {
 				int inputInt = 0;
 				try{
 					input = trans.RM20("Indtast bruger ID:","","");
-					inputInt = Integer.parseUnsignedInt(input);
-					
+					if(input.toLowerCase().equals("q")){
+						return STOP;
+					}
+					inputInt = Integer.parseUnsignedInt(input);					
 				} catch (NumberFormatException | IOException e) {
 					menu.show("Forkert type input. Prøv igen");
-					inputInt=-1;
-				}
-					
-				if(input.toLowerCase().equals("q")){
-					inputInt = -2;
-				}
-				
-				switch(inputInt) {
-				case -1:					
 					return START;
-				case -2:					
-					return STOP;
-				default:
-					opr_nr = inputInt;
-					return GET_PROD_NR;
 				}
+				opr_nr = inputInt;
+				return GET_PROD_NR;				
 			}
 		},
 		GET_PROD_NR {
@@ -150,8 +137,6 @@ public class MenuController implements IMenuController {
 					return GET_PROD_NR;
 				}				
 			}
-
-
 		},
 		SET_CONTAINER {
 			@Override
@@ -171,16 +156,12 @@ public class MenuController implements IMenuController {
 						return ADD_PRODUCT;
 					} else {
 						return SET_CONTAINER;
-					}
-					
+					}					
 				} catch (NumberFormatException | IOException e) {
 					menu.show("Forkert type input. Prøv igen");
 					return SET_CONTAINER;
 				}				
 			}
-			
-
-
 		},
 		ADD_PRODUCT {
 			@Override
