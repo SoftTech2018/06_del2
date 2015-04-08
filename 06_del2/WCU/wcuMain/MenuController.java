@@ -95,7 +95,7 @@ public class MenuController implements IMenuController {
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, IMenuController Imc) {
-				String input = null;
+				String input = null,name;
 				int inputInt = 0;
 				try{
 					input = trans.RM20("Indtast bruger ID:","","");
@@ -103,13 +103,19 @@ public class MenuController implements IMenuController {
 					if(input.toLowerCase().equals("q")){
 						return STOP;
 					}
-					inputInt = Integer.parseUnsignedInt(input);					
+					inputInt = Integer.parseUnsignedInt(input);
+					name = fileAccess.getOpr(inputInt);
+					input = trans.RM20("Korrekt bruger:",name,"?");
+					if(input.equals(name)){
+						Imc.setOprID(inputInt);
+						return GET_PROD_NR;
+					} else {
+						return START;
+					}
 				} catch (NumberFormatException | IOException e) {
 					menu.show("Forkert type input. Prøv igen");
 					return START;
-				}
-				Imc.setOprID(inputInt);
-				return GET_PROD_NR;				
+				}				
 			}
 		},
 		GET_PROD_NR {
