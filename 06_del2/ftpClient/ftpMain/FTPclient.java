@@ -2,7 +2,9 @@ package ftpMain;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -12,6 +14,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 public class FTPclient{
@@ -63,6 +67,42 @@ public class FTPclient{
 		sendLine("LIST");
 		recievePacket();
 		readLine();
+	}
+	
+	public void downloadFile(){
+		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery/selfie2.JPG;type=i";
+        String host = "www.missekat.com";
+        String user = "missekat.dk";
+        String pass = "jakobmedc";
+        String filePath = "/wp-content/uploads/photo-gallery/selfie2.JPG";
+        String savePath = "C:/Users/JACOB/Desktop/selfie2.JPG";
+ 
+        ftpUrl = String.format(ftpUrl, user, pass, host, filePath);
+        System.out.println("URL: " + ftpUrl);
+ 
+        try {
+            URL url = new URL(ftpUrl);
+            URLConnection conn = url.openConnection();
+            InputStream inputStream = conn.getInputStream();
+ 
+            FileOutputStream outputStream = new FileOutputStream(savePath);
+            
+            System.out.println("Fil downloades - vent venligst");
+            
+            int BufferStoerrelse = 4096;
+            byte[] buffer = new byte[BufferStoerrelse];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+ 
+            outputStream.close();
+            inputStream.close();
+ 
+            System.out.println("Filen er downloaded");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 	}
 	
 	private void sendLine(String line) throws IOException {
