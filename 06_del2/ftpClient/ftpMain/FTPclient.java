@@ -6,7 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class FTPclient{
@@ -14,7 +19,8 @@ public class FTPclient{
 	private Socket socket = null;
 	private BufferedReader reader = null;
 	private BufferedWriter writer = null;
-	private static boolean DEBUG = false;
+	private static boolean DEBUG = true;
+	DatagramSocket ds;
 	
 	public FTPclient(){
 		
@@ -37,6 +43,7 @@ public class FTPclient{
 		sendLine("USER " + user);
 		
 		response = readLine();
+		
 		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter p� Password
 			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
 		}
@@ -44,10 +51,18 @@ public class FTPclient{
 		sendLine("PASS " + pass);
 		
 		response = readLine();
+		
 		if (!response.startsWith("230-User ")){
 			throw new IOException("FTP klienten n�gtet adgang med det givne password: "+ response);
 		}
 		
+		sendLine("PASV");
+		readLine();
+		String[] test = parsePASV(readLine());
+		getData(test[0], Integer.parseInt(test[1]));
+		sendLine("LIST");
+		recievePacket();
+		readLine();
 	}
 	
 	private void sendLine(String line) throws IOException {
@@ -78,17 +93,45 @@ public class FTPclient{
 	// I ovenstående tilfælde ip = 195.47.247.238, portnummer = 249*256+136. 
 	public String[] parsePASV(String pasvReturn){
 		int start = 0, end = 0;
-		while (pasvReturn.charAt(start) == '('){
+		while (pasvReturn.charAt(start) != '('){
 			start++;
 		}
 		end = start +1;
-		while (pasvReturn.charAt(end) == ')'){
+		while (pasvReturn.charAt(end) != ')'){
 			end++;
 		}
-		String[] temp = pasvReturn.substring(start, end).split(",");
+		String[] temp = pasvReturn.substring(start+1, end).split(",");
 		String ip = temp[0] + "." + temp[1] + "." + temp[2] + "." + temp[3];
-		int port = Integer.parseInt(temp[4]) * Integer.parseInt(temp[5]) + Integer.parseInt(temp[6]);
+		int port = Integer.parseInt(temp[4]) * 256 + Integer.parseInt(temp[5]);
+		if (DEBUG){
+			System.out.println("PASV IP: " + ip);
+			System.out.println("PASV Port: " + port);	
+		}
 		return new String[]{ip, Integer.toString(port)};
+	}
+	
+	public void getData(String host, int port) throws IOException{
+		ds = new DatagramSocket();
+		ds.connect(InetAddress.getByName(host), port);
+		
+		if (DEBUG)
+			System.out.println("Tilsluttet Datagram: " + ds.isConnected());
+        
+	}
+	
+	public void recievePacket() throws IOException{
+		byte[] buf = new byte[2048];
+		DatagramPacket packet = new DatagramPacket(buf, buf.length);
+//        ds.send(packet);
+//        if (DEBUG)
+//			System.out.println("Sendt packet");
+        
+        packet = new DatagramPacket(buf, buf.length);
+        ds.receive(packet);
+        if (DEBUG)
+			System.out.println("Modtaget packet");
+        String received = new String(packet.getData(), 0, packet.getLength());
+        System.out.println("< Modtaget: " + received);
 	}
 	
 }
