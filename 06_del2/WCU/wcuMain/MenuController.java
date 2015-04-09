@@ -28,6 +28,7 @@ public class MenuController implements IMenuController {
 		connect(host, port);
 	}
 	
+	@Override
 	public void connect(String host, int port){
 		try (Socket	socket = new Socket(host, port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -51,33 +52,11 @@ public class MenuController implements IMenuController {
 	}
 
 	/* (non-Javadoc)
-	 * @see wcuMain.IMenuController#getInput()
-	 */
-	@Override
-	public String getInput(){
-		try{
-			return menu.ask();
-		}
-		catch(NumberFormatException e){
-			System.out.println("Du er en tosse - prøv igen");
-			return getInput();
-		}
-	}
-
-	/* (non-Javadoc)
 	 * @see wcuMain.IMenuController#start()
 	 */
 	@Override
 	public void start(){
 		menu.show("Velkommen!");
-		loop();
-	}
-
-	/* (non-Javadoc)
-	 * @see wcuMain.IMenuController#loop()
-	 */
-	@Override
-	public void loop(){
 		do{
 			menu.show(state.desc());
 			action();		
@@ -85,8 +64,6 @@ public class MenuController implements IMenuController {
 		while(!state.equals(State.STOP));
 	}
 	
-	
-
 	public enum State {
 		START {
 			@Override

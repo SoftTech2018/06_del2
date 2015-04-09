@@ -7,24 +7,6 @@ public class Menu implements IMenu {
 	Scanner menuScan = new Scanner(System.in);	
 	
 	/* (non-Javadoc)
-	 * @see wcuMain.IMenu#ask()
-	 */
-	@Override
-	public String ask() {
-		String out;
-		try {
-			System.out.println("Tast her: ");
-			out = menuScan.next();
-			menuScan.nextLine();
-		} catch (InputMismatchException e){
-			menuScan.nextLine();
-			System.out.println("Forkert input, prøv igen"); 
-			out= ask();
-		} 
-		return out;
-	}
-	
-	/* (non-Javadoc)
 	 * @see wcuMain.IMenu#showSTART()
 	 */
 	@Override

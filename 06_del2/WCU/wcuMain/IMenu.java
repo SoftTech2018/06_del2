@@ -2,8 +2,6 @@ package wcuMain;
 
 public interface IMenu {
 
-	public abstract String ask();
-
 	public abstract void showSTART();
 
 	public abstract void showGET_PROD_NR();
