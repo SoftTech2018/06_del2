@@ -37,7 +37,7 @@ public class FTPclient{
 		sendLine("USER " + user);
 		
 		response = readLine();
-		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter på Password
+		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter pï¿½ Password
 			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
 		}
 		
@@ -45,7 +45,7 @@ public class FTPclient{
 		
 		response = readLine();
 		if (!response.startsWith("230-User ")){
-			throw new IOException("FTP klienten nægtet adgang med det givne password: "+ response);
+			throw new IOException("FTP klienten nï¿½gtet adgang med det givne password: "+ response);
 		}
 		
 	}
@@ -72,6 +72,23 @@ public class FTPclient{
 			System.out.println("< " + line);
 		}
 		return line;
+	}
+	
+	// Modtager et PASV reply fra en server (f.eks. "227 Entering Passive Mode (195,47,247,238,249,136).") og returnerer ip adressen + portnummeret
+	// I ovenstÃ¥ende tilfÃ¦lde ip = 195.47.247.238, portnummer = 249*256+136. 
+	public String[] parsePASV(String pasvReturn){
+		int start = 0, end = 0;
+		while (pasvReturn.charAt(start) == '('){
+			start++;
+		}
+		end = start +1;
+		while (pasvReturn.charAt(end) == ')'){
+			end++;
+		}
+		String[] temp = pasvReturn.substring(start, end).split(",");
+		String ip = temp[0] + "." + temp[1] + "." + temp[2] + "." + temp[3];
+		int port = Integer.parseInt(temp[4]) * Integer.parseInt(temp[5]) + Integer.parseInt(temp[6]);
+		return new String[]{ip, Integer.toString(port)};
 	}
 	
 }
