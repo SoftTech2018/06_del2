@@ -15,6 +15,8 @@ public interface IMenu {
 	String sensorOverblik();
 
 	String setSampling();
+	
+	String downloadFile();
 
 	
 

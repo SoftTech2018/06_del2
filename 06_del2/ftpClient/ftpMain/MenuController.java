@@ -21,7 +21,6 @@ public class MenuController implements IMenuController{
 		this.zbtr = zbtr;
 		this.ftpC = ftpC;
 		connectZybo(host, port);
-		ftpC.connect("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
 	}
 	
 	public void connectZybo(String host, int port){
@@ -44,8 +43,7 @@ public class MenuController implements IMenuController{
 				ftpC.getList();
 				break;
 			case "2":
-				menu.retrieve(); //Henter fil fra ftp server
-				// Her skal der tilf�jes en kommando til at kontakte ftp serveren
+				ftpC.downloadFile(download());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -78,5 +76,8 @@ public class MenuController implements IMenuController{
 			zbtr.sendCommand(input, Integer.parseInt(sensor), null);
 		}
 	}
-	//MenuController skal bruge en m�de at modtage fil-listen p� og videresende til Menu - evt et array?
+	
+	public String download(){
+		return menu.downloadFile();
+	}
 }

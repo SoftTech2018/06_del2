@@ -2,6 +2,7 @@ package ftpMain;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +58,7 @@ public class FTPclient{
 		response = readLine();
 		
 		if (!response.startsWith("230-User ")){
-			throw new IOException("FTP klienten n�gtet adgang med det givne password: "+ response);
+			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
 		}
 		
 //		sendLine("PASV");
@@ -69,16 +70,16 @@ public class FTPclient{
 //		readLine();
 	}
 	
-	public void downloadFile(){
-		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery/selfie2.JPG;type=i";
+	public void downloadFile(String chooseFile){
+		String specificFile = chooseFile;
+		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery/" + specificFile + ";type=i";
         String host = "www.missekat.com";
         String user = "missekat.dk";
         String pass = "jakobmedc";
-        String filePath = "/wp-content/uploads/photo-gallery/selfie2.JPG";
-        String savePath = "C:/Users/JACOB/Desktop/selfie2.JPG";
+        String filePath = "/wp-content/uploads/photo-gallery/"+specificFile;
+        String savePath = "C:/Users/JACOB/Desktop/"+specificFile;
  
         ftpUrl = String.format(ftpUrl, user, pass, host, filePath);
-        System.out.println("URL: " + ftpUrl);
  
         try {
             URL url = new URL(ftpUrl);
@@ -87,7 +88,7 @@ public class FTPclient{
  
             FileOutputStream outputStream = new FileOutputStream(savePath);
             
-            System.out.println("Fil downloades - vent venligst");
+            System.out.println("*****Fil downloades - vent*****");
             
             int BufferStoerrelse = 4096;
             byte[] buffer = new byte[BufferStoerrelse];
@@ -99,7 +100,9 @@ public class FTPclient{
             outputStream.close();
             inputStream.close();
  
-            System.out.println("Filen er downloaded");
+            System.out.println("******Filen er downloaded******");
+        } catch (FileNotFoundException ex) {
+        	System.out.println("Filen eksisterer ikke");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
