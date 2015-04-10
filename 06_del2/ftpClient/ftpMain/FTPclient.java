@@ -121,13 +121,16 @@ public class FTPclient{
             InputStream inputStream = conn.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
  
+            System.out.println("**************Start***************");
+            
             String line = null;
-//            System.out.println("--- START ---");
+
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-//            System.out.println("--- END ---");
- 
+
+            System.out.println("**************Slut****************");
+            
             inputStream.close();
         } catch (IOException ex) {
             ex.printStackTrace();

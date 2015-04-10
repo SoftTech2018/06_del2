@@ -14,12 +14,14 @@ public class MenuController implements IMenuController{
 	private IMenu menu;
 	private IZyboTransmitter zbtr;
 	private FTPclient ftpC;
+	private boolean run=true;
 	
 	public MenuController(IMenu menu, IZyboTransmitter zbtr, FTPclient ftpC, String host, int port) throws NumberFormatException, IOException{ 
 		this.menu = menu;
 		this.zbtr = zbtr;
 		this.ftpC = ftpC;
 		connectZybo(host, port);
+		ftpC.connect("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
 	}
 	
 	public void connectZybo(String host, int port){
@@ -35,33 +37,33 @@ public class MenuController implements IMenuController{
 		}
 	}
 	
-	public void choice() throws NumberFormatException, IOException {	
-		switch (menu.showMenu()) {
-		case "1":
-//			menu.list(); //Viser fil-liste p� ftp server
-			// Her skal der tilf�jes en kommando til at kontakte ftp serveren
-			ftpC.getList();
-			break;
-		case "2":
-			menu.retrieve(); //Henter fil fra ftp server
-			// Her skal der tilf�jes en kommando til at kontakte ftp serveren
-			break;
-		case "3":
-			String input = menu.sensorOverblik();
-			if (input.equals("e")) {
-				choice();
-			}
-			else {
-			specificSensor(input);
-			}
-			break;
-		case "4":
-			//Afslut program
-			break;
-		default:
-			System.out.println("Forkert indtastning - pr�v igen!");
-			choice();
-		}	
+	public void choice() throws NumberFormatException, IOException {
+		do {
+			switch (menu.showMenu()) {
+			case "1":
+				ftpC.getList();
+				break;
+			case "2":
+				menu.retrieve(); //Henter fil fra ftp server
+				// Her skal der tilf�jes en kommando til at kontakte ftp serveren
+				break;
+			case "3":
+				String input = menu.sensorOverblik();
+				if (input.equals("e")) {
+					choice();
+				}
+				else {
+					specificSensor(input);
+				}
+				break;
+			case "4":
+				run=false;
+				break;
+			default:
+//				System.out.println("Forkert indtastning - pr�v igen!");
+//				choice();
+			}	
+		} while (run);
 	}	
 	
 	public void specificSensor(String sensor) throws NumberFormatException, IOException { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
