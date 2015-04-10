@@ -60,13 +60,13 @@ public class FTPclient{
 			throw new IOException("FTP klienten n�gtet adgang med det givne password: "+ response);
 		}
 		
-		sendLine("PASV");
-		readLine();
-		String[] test = parsePASV(readLine());
-		getData(test[0], Integer.parseInt(test[1]));
-		sendLine("LIST");
-		recievePacket();
-		readLine();
+//		sendLine("PASV");
+//		readLine();
+//		String[] test = parsePASV(readLine());
+//		getData(test[0], Integer.parseInt(test[1]));
+//		sendLine("LIST");
+//		recievePacket();
+//		readLine();
 	}
 	
 	public void downloadFile(){
@@ -100,6 +100,35 @@ public class FTPclient{
             inputStream.close();
  
             System.out.println("Filen er downloaded");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+	}
+	
+	public void getList(){
+		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery;type=d";
+        String host = "www.missekat.dk";
+        String user = "missekat.dk";
+        String pass = "jakobmedc";
+        String dirPath = "wp-content/uploads/photo-gallery";
+ 
+        ftpUrl = String.format(ftpUrl, user, pass, host, dirPath);
+//        System.out.println("URL: " + ftpUrl);
+ 
+        try {
+            URL url = new URL(ftpUrl);
+            URLConnection conn = url.openConnection();
+            InputStream inputStream = conn.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+ 
+            String line = null;
+//            System.out.println("--- START ---");
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+//            System.out.println("--- END ---");
+ 
+            inputStream.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

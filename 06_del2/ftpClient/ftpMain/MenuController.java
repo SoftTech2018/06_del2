@@ -13,10 +13,12 @@ public class MenuController implements IMenuController{
 
 	private IMenu menu;
 	private IZyboTransmitter zbtr;
+	private FTPclient ftpC;
 	
-	public MenuController(IMenu menu, IZyboTransmitter zbtr, String host, int port){ 
+	public MenuController(IMenu menu, IZyboTransmitter zbtr, FTPclient ftpC, String host, int port) throws NumberFormatException, IOException{ 
 		this.menu = menu;
 		this.zbtr = zbtr;
+		this.ftpC = ftpC;
 		connectZybo(host, port);
 	}
 	
@@ -36,8 +38,9 @@ public class MenuController implements IMenuController{
 	public void choice() throws NumberFormatException, IOException {	
 		switch (menu.showMenu()) {
 		case "1":
-			menu.list(); //Viser fil-liste p� ftp server
+//			menu.list(); //Viser fil-liste p� ftp server
 			// Her skal der tilf�jes en kommando til at kontakte ftp serveren
+			ftpC.getList();
 			break;
 		case "2":
 			menu.retrieve(); //Henter fil fra ftp server
