@@ -19,7 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 
-public class FTPclient{
+public class FTPclient implements IFTPclient{
 	
 	private Socket socket = null;
 	private BufferedReader reader = null;
@@ -31,7 +31,7 @@ public class FTPclient{
 		
 	}
 	
-	public synchronized void connect(String host, int port, String user, String pass) throws IOException{
+	public synchronized void connectToServer(String host, int port, String user, String pass) throws IOException{
 		if (socket != null){
 			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
 		}
@@ -61,13 +61,6 @@ public class FTPclient{
 			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
 		}
 		
-//		sendLine("PASV");
-//		readLine();
-//		String[] test = parsePASV(readLine());
-//		getData(test[0], Integer.parseInt(test[1]));
-//		sendLine("LIST");
-//		recievePacket();
-//		readLine();
 	}
 	
 	public void downloadFile(String chooseFile){
@@ -116,7 +109,6 @@ public class FTPclient{
         String dirPath = "wp-content/uploads/photo-gallery";
  
         ftpUrl = String.format(ftpUrl, user, pass, host, dirPath);
-//        System.out.println("URL: " + ftpUrl);
  
         try {
             URL url = new URL(ftpUrl);
@@ -131,7 +123,7 @@ public class FTPclient{
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-
+            
             System.out.println("**************Slut****************");
             
             inputStream.close();
@@ -140,7 +132,7 @@ public class FTPclient{
         }
 	}
 	
-	private void sendLine(String line) throws IOException {
+	public void sendLine(String line) throws IOException {
 		if (socket == null) {
 			throw new IOException("FTP klienten har ingen forbindelse til serveren.");
 		}
@@ -156,7 +148,7 @@ public class FTPclient{
 		}
 	}
 	
-	private String readLine() throws IOException {
+	public String readLine() throws IOException {
 		String line = reader.readLine();
 		if (DEBUG) {
 			System.out.println("< " + line);

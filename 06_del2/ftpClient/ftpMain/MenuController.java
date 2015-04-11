@@ -13,10 +13,10 @@ public class MenuController implements IMenuController{
 
 	private IMenu menu;
 	private IZyboTransmitter zbtr;
-	private FTPclient ftpC;
+	private IFTPclient ftpC;
 	private boolean run=true;
 	
-	public MenuController(IMenu menu, IZyboTransmitter zbtr, FTPclient ftpC, String host, int port) throws NumberFormatException, IOException{ 
+	public MenuController(IMenu menu, IZyboTransmitter zbtr, IFTPclient ftpC, String host, int port) throws NumberFormatException, IOException{ 
 		this.menu = menu;
 		this.zbtr = zbtr;
 		this.ftpC = ftpC;
@@ -59,7 +59,6 @@ public class MenuController implements IMenuController{
 				break;
 			default:
 //				System.out.println("Forkert indtastning - pr�v igen!");
-//				choice();
 			}	
 		} while (run);
 	}	

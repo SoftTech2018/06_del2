@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public interface IFTPclient {
 	
-	void connect(String host, int port, String user, String pass) throws IOException;
+	void connectToServer(String host, int port, String user, String pass) throws IOException;
 	
-	void downloadFile();
+	void downloadFile(String chooseFile);
 	
 	void getList();
 	
@@ -16,8 +16,8 @@ public interface IFTPclient {
 	
 	String[] parsePASV(String pasvReturn);
 	
-	void getData(String host, int port);
+	void getData(String host, int port) throws IOException;
 	
-	void recievePacket();
+	void recievePacket() throws IOException;
 
 }

@@ -23,14 +23,14 @@ public class Main {
 		
 		Scanner menuScan = new Scanner(System.in);
 		
-//		System.out.println("Indtast host");
+//		System.out.println("Indtast host (FTP-server)");
 //		String host = menuScan.next();
 //		System.out.println("Indtast port");
 //		int port = menuScan.nextInt();
 		String host = "ftp.missekat.dk";
 		int port = 21;
 		
-		FTPclient ftpC = new FTPclient();
+		IFTPclient ftpC = new FTPclient();
 		IMenu menu = new Menu(menuScan);
 		IZyboTransmitter zbtr = new ZyboTransmitter();
 		IMenuController menuCon = new MenuController(menu, zbtr, ftpC, host, port);
