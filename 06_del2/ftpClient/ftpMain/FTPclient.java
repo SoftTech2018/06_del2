@@ -96,7 +96,7 @@ public class FTPclient implements IFTPclient{
  
             System.out.println("******Filen er downloaded******");
         } catch (FileNotFoundException ex) {
-        	System.out.println("Filen eksisterer ikke");
+        	System.out.println("Filen eller det valgte Directory eksisterer ikke");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
