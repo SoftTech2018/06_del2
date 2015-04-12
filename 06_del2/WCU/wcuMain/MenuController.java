@@ -154,10 +154,19 @@ public class MenuController implements IMenuController {
 						trans.P111("Forkert produkt. Prøv igen.");
 						return GET_PROD_NR;
 					}					
-				} catch (NumberFormatException | IOException e) {
+				} catch (NumberFormatException e) {
 					try {
-						menu.show("Fejl. Prøv igen.");
-						trans.P111("Fejl. Prøv igen.");
+						menu.show("Forkert input type. Prøv igen.");
+						trans.P111("Forkert input type. Prøv igen.");
+					} catch (IOException e1) {
+						System.out.println("IOException fejl");
+						System.exit(1);
+					}
+					return GET_PROD_NR;
+				} catch (IOException e){
+					try {
+						menu.show("Produkt findes ikke. Prøv igen.");
+						trans.P111("Produkt findes ikke. Prøv igen");
 					} catch (IOException e1) {
 						System.out.println("IOException fejl");
 						System.exit(1);
