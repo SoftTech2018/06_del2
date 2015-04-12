@@ -28,7 +28,7 @@ public class MenuController implements IMenuController {
 		this.state = State.START;
 		connect(host, port);
 	}
-	
+
 	@Override
 	public void connect(String host, int port){
 		try (Socket	socket = new Socket(host, port);
@@ -55,7 +55,7 @@ public class MenuController implements IMenuController {
 		}
 		while(!state.equals(State.STOP));
 	}
-	
+
 	public enum State {
 		START {
 			@Override
@@ -82,7 +82,12 @@ public class MenuController implements IMenuController {
 						return START;
 					}
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
 					return START;
 				}				
 			}
@@ -112,7 +117,11 @@ public class MenuController implements IMenuController {
 						}
 					}
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					return GET_PROD_NR;
 				}				
 			}
@@ -138,7 +147,11 @@ public class MenuController implements IMenuController {
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					return SET_CONTAINER;
 				}				
 			}
@@ -165,9 +178,13 @@ public class MenuController implements IMenuController {
 					} else {
 						return ADD_PRODUCT;
 					}
-					
+
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					return ADD_PRODUCT;
 				}
 			}
@@ -191,15 +208,19 @@ public class MenuController implements IMenuController {
 					} else {
 						return REMOVE_CONTAINER;
 					}
-					
+
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					return REMOVE_CONTAINER	;
 				}
 			}
 		},
 		RESTART {
-			
+
 			@Override
 			String desc() {
 				return null;
@@ -217,9 +238,13 @@ public class MenuController implements IMenuController {
 					} else {
 						return STOP;
 					}
-					
+
 				} catch (NumberFormatException | IOException e) {
-					menu.show("Forkert type input. Prøv igen");
+					try {
+						trans.P111("Forkert type input. Prøv igen");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					return RESTART;
 				}
 			}			
@@ -242,31 +267,31 @@ public class MenuController implements IMenuController {
 	private int getOprID(){
 		return opr_nr;
 	}
-	
+
 	private void setOprID(int id){
 		this.opr_nr=id;
 	}
-	
+
 	private int getVareID(){
 		return vare_nr;
 	}
-	
+
 	private void setVareID(int id){
 		this.vare_nr=id;
 	}
-	
+
 	private double getAfvejning(){
 		return afvejning;
 	}
-	
+
 	private void setAfvejning(double afvejning){
 		this.afvejning=afvejning;
 	}
-	
+
 	private double getTara(){
 		return tara;
 	}
-	
+
 	private void setTara(double tara){
 		this.tara=tara;
 	}
