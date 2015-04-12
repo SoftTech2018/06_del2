@@ -12,6 +12,7 @@ import java.util.List;
 public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
+	private boolean connected;
 	
 	/**
 	 * Sender kommando til Zybo-board for en specifik sensor
@@ -24,34 +25,35 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	public String sendCommand(String command, int sensor, String parameter) throws IOException{
 		String message = command + " " + sensor;
 		String reply = null;
-		switch (command){
-		case "S":{ // Start måling
-			out.println(message);
-			reply = in.readLine();
+		if (connected == true) {
+			switch (command) {
+			case "S": { // Start måling
+				out.println(message);
+				reply = in.readLine();
+			}
+				break;
+			case "B": { // Stop måling
+				out.println(message);
+				reply = in.readLine();
+			}
+				break;
+			case "T": { // Returner måling
+				out.println(message);
+				reply = in.readLine().substring(2); // Antager svaret er noget lignende "T 1.54232"
+			}
+				break;
+			case "I": { // Sæt samplingsinterval
+				if (parameter == null)
+					parameter = "12000";
+				out.println(message + " " + parameter); // F.eks. "I 222 12000" betyder at sensor 222 skal ændre samplingsinterval til 120000
+				reply = in.readLine();
+			}
+				break;
+			default: {
+				reply = "Forkert kommando modtaget";
+			}
+			}
 		}
-		break;
-		case "B":{ // Stop måling
-			out.println(message);
-			reply = in.readLine();
-		}
-		break;
-		case "T":{ // Returner måling
-			out.println(message);
-			reply = in.readLine().substring(2); // Antager svaret er noget lignende "T 1.54232"
-		}
-		break;
-		case "I":{ // Sæt samplingsinterval
-			if (parameter == null)
-				parameter = "12000";
-			out.println(message + " " + parameter); // F.eks. "I 222 12000" betyder at sensor 222 skal ændre samplingsinterval til 120000
-			reply = in.readLine();
-		}
-		break;
-		default:{
-			reply = "Forkert kommando modtaget";
-		}
-		}
-		
 		return reply;
 	}
 	
@@ -73,7 +75,8 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	@Override
 	public void connected(BufferedReader in, PrintWriter out) {
 		this.out = out;
-		this.in = in;		
+		this.in = in;
+		this.connected = true;
 	}
 
 	
