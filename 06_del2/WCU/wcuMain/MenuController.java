@@ -32,12 +32,14 @@ public class MenuController implements IMenuController {
 		try (Socket	socket = new Socket(host, port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
-			trans.connected(in, out);			
+			trans.connected(in, out);
 			start();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("UnknownHostException fejl");
+			System.exit(1);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("IOException fejl");
+			System.exit(1);
 		}
 	}
 
@@ -85,23 +87,34 @@ public class MenuController implements IMenuController {
 						return STOP;
 					}
 					if(nameInput.equals(name)) {
-						menu.show("Bruger bekræftet.");
+						menu.show(nameInput+" bekræftet.");
 						mc.setOprID(inputInt);
 						return GET_PROD_NR;
 					} else {
+						menu.show(nameInput);
 						menu.show("Forkert bruger. Prøv igen.");
 						trans.P111("Forkert bruger. Prøv igen.");
 						return START;
 					}
-				} catch (NumberFormatException | IOException e) {
+				} catch (NumberFormatException e) {
 					try {
+						menu.show("Forkert input type. Prøv igen.");
 						trans.P111("Forkert input type. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
-
 					return START;
-				}				
+				} catch (IOException e){
+					try {
+						menu.show("Bruger findes ikke. Prøv igen.");
+						trans.P111("Bruger findes ikke. Prøv igen.");
+					} catch (IOException e1) {
+						System.out.println("IOException fejl");
+						System.exit(1);
+					}
+					return START;
+				}
 			}
 		},
 		GET_PROD_NR {
@@ -143,9 +156,11 @@ public class MenuController implements IMenuController {
 					}					
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						menu.show("Fejl. Prøv igen.");
+						trans.P111("Fejl. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
 					return GET_PROD_NR;
 				}				
@@ -173,7 +188,7 @@ public class MenuController implements IMenuController {
 					if (input.equals(answer)) {
 						menu.show("Beholder påsat");
 						mc.setTara(Double.parseDouble(trans.T()));
-						menu.show("Vægt tareret");
+						menu.show("Vægt tareret: "+mc.getTara());
 						return ADD_PRODUCT;
 					} else {
 						menu.show("Beholder ej påsat. Prøv igen.");
@@ -182,9 +197,11 @@ public class MenuController implements IMenuController {
 					}					
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						menu.show("Fejl. Prøv igen.");
+						trans.P111("Fejl. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
 					return SET_CONTAINER;
 				}				
@@ -225,9 +242,11 @@ public class MenuController implements IMenuController {
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						menu.show("Fejl. Prøv igen.");
+						trans.P111("Fejl. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
 					return ADD_PRODUCT;
 				}
@@ -267,9 +286,11 @@ public class MenuController implements IMenuController {
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						menu.show("Fejl. Prøv igen.");
+						trans.P111("Fejl. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
 					return REMOVE_CONTAINER	;
 				}
@@ -305,9 +326,11 @@ public class MenuController implements IMenuController {
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						menu.show("Fejl. Prøv igen.");
+						trans.P111("Fejl. Prøv igen.");
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.out.println("IOException fejl");
+						System.exit(1);
 					}
 					return RESTART;
 				}
