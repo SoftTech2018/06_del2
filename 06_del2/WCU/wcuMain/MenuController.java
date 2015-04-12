@@ -25,6 +25,7 @@ public class MenuController implements IMenuController {
 		this.menu = menu;
 		this.fileAccess = rf;
 		this.trans = trans;
+		this.state = State.START;
 		connect(host, port);
 	}
 	
@@ -33,22 +34,13 @@ public class MenuController implements IMenuController {
 		try (Socket	socket = new Socket(host, port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
-			trans.connected(in, out);
-			this.state = State.START;
+			trans.connected(in, out);			
 			start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see wcuMain.IMenuController#action(java.lang.String)
-	 */
-	@Override
-	public void action() {
-		this.state = this.state.changeState(menu,fileAccess,trans,this);
 	}
 
 	/* (non-Javadoc)
@@ -59,7 +51,7 @@ public class MenuController implements IMenuController {
 		menu.show("Velkommen!");
 		do{
 			menu.show(state.desc());
-			action();		
+			this.state = this.state.changeState(menu,fileAccess,trans,this);		
 		}
 		while(!state.equals(State.STOP));
 	}
