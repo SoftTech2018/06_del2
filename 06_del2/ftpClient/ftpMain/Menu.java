@@ -85,6 +85,14 @@ public class Menu implements IMenu {
 		output = menuScan.next();
 		return output;
 	}
+	
+	public String downloadDestination(){
+		String output;
+		System.out.println("Hvor skal filen placeres på harddisken?");
+		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/");
+		output = menuScan.next();
+		return output;
+	}
 
 	//SKAL SANDSYNLIGVIS FJERNES
 	@Override

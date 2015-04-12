@@ -63,14 +63,15 @@ public class FTPclient implements IFTPclient{
 		
 	}
 	
-	public void downloadFile(String chooseFile){
+	public void downloadFile(String chooseFile, String save){
 		String specificFile = chooseFile;
 		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery/" + specificFile + ";type=i";
         String host = "www.missekat.com";
         String user = "missekat.dk";
         String pass = "jakobmedc";
         String filePath = "/wp-content/uploads/photo-gallery/"+specificFile;
-        String savePath = "C:/Users/JACOB/Desktop/"+specificFile;
+        String savePath = save + specificFile;
+//        String savePath = "C:/Users/JACOB/Desktop/"+specificFile;
  
         ftpUrl = String.format(ftpUrl, user, pass, host, filePath);
  

@@ -17,6 +17,8 @@ public interface IMenu {
 	String setSampling();
 	
 	String downloadFile();
+	
+	String downloadDestination();
 
 	
 

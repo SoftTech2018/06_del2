@@ -43,7 +43,7 @@ public class MenuController implements IMenuController{
 				ftpC.getList();
 				break;
 			case "2":
-				ftpC.downloadFile(download());
+				ftpC.downloadFile(download(), downloadDestination());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -78,5 +78,9 @@ public class MenuController implements IMenuController{
 	
 	public String download(){
 		return menu.downloadFile();
+	}
+	
+	public String downloadDestination(){
+		return menu.downloadDestination();
 	}
 }
