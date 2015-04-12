@@ -24,17 +24,17 @@ public class Menu implements IMenu {
 	}
 	
 	//SKAL SANDSYNLIGVIS FJERNES
-	public void list(String list, String fileArray[]) { //String list returnerer listen af filer på FTP-serveren, omdannet til strings
-		System.out.println("Liste over filer på ftp-server: ");
+	public void list(String list, String fileArray[]) { //String list returnerer listen af filer pï¿½ FTP-serveren, omdannet til strings
+		System.out.println("Liste over filer pï¿½ ftp-server: ");
 		for (int i = 0; i < fileArray.length; i++) {
 			System.out.println(fileArray[i]);
 		}
-		System.out.println(list); //Her skal der laves en for løkke der printer alle filtitlerne ud
+		System.out.println(list); //Her skal der laves en for lï¿½kke der printer alle filtitlerne ud
 	
 	}
 	
 	//SKAL SANDSYNLIGVIS FJERNES
-	public void retrieve(File file, String fileArray[]) { //Hvilken type skal filen være??, fileArray bruges i menuControlleren til at holde styr på filerne
+	public void retrieve(File file, String fileArray[]) { //Hvilken type skal filen vï¿½re??, fileArray bruges i menuControlleren til at holde styr pï¿½ filerne
 		for (int i = 0; i < fileArray.length; i++) {
 			System.out.println(fileArray[i]);
 		}
@@ -42,8 +42,8 @@ public class Menu implements IMenu {
 		String out;
 		out = menuScan.nextLine();
 		for (int i = 0; i < fileArray.length; i++) {
-			if (out == fileArray[i]) { //Hvad skal der stå i stedet for?
-			System.out.println("Du har hentet fil nr" + fileArray[i]); //højst sandsynligt ikke den optimale løsning
+			if (out == fileArray[i]) { //Hvad skal der stï¿½ i stedet for?
+			System.out.println("Du har hentet fil nr" + fileArray[i]); //hï¿½jst sandsynligt ikke den optimale lï¿½sning
 			}
 		} 
 	}
@@ -56,7 +56,7 @@ public class Menu implements IMenu {
 		System.out.println("Tast 2 for sensor 4");
 		System.out.println("Tast 3 for sensor 222");
 		System.out.println("Tast 4 for sensor 7");
-		System.out.println("Tast e for at gå tilbage til hovedmenu");
+		System.out.println("Tast e for at gï¿½ tilbage til hovedmenu");
 		
 		out = menuScan.nextLine();
 		return out;
@@ -64,25 +64,24 @@ public class Menu implements IMenu {
 	
 	public String sensorMenu() {
 		String out;
-		System.out.println("Indtast tallet for hvilken funktion der skal udføres");
-		System.out.println("1: Bed sensor om at øge sit samplingsinterval.");
-		System.out.println("2: Bed sensor om at mindske sit samplingsinterval.");
-		System.out.println("3: Bed sensor om at begynde måling.");
-		System.out.println("4: Bed sensor om at stoppe måling.");
-		System.out.println("e: Gå tilbage til hovedmenu.");
+		System.out.println("Indtast tallet for hvilken funktion der skal udfï¿½res");
+		System.out.println("1: Bed sensor om at Ã¦ndre sit samplingsinterval.");
+		System.out.println("2: Bed sensor om at begynde mï¿½ling.");
+		System.out.println("3: Bed sensor om at stoppe mï¿½ling.");
+		System.out.println("e: Gï¿½ tilbage til hovedmenu.");
 		out = menuScan.nextLine();
 		return out;
 	}
 	public String setSampling() {
 		String out;
-		System.out.println("Hvor meget vil du ændre samplingsintervallet med?");
+		System.out.println("Hvor meget vil du ï¿½ndre samplingsintervallet med?");
 		out = menuScan.nextLine();
 		return out;
 	}
 	
 	public String downloadFile(){
 		String output;
-		System.out.print("Skriv navnet på filen du ønsker at hente: ");
+		System.out.print("Skriv navnet pï¿½ filen du ï¿½nsker at hente: ");
 		output = menuScan.next();
 		return output;
 	}
