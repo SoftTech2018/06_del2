@@ -10,8 +10,6 @@ import java.net.UnknownHostException;
 import functionality.IReadFiles;
 import functionality.ITransmitter;
 
-
-
 public class MenuController implements IMenuController {
 
 	private State state;
@@ -48,8 +46,9 @@ public class MenuController implements IMenuController {
 	 */
 	@Override
 	public void start(){
-		menu.show("Velkommen!");
+		menu.show("Overvågning af vægtbetjening");
 		do{
+			menu.show("");
 			menu.show(state.desc());
 			this.state = this.state.changeState(menu,fileAccess,trans,this);		
 		}
@@ -60,30 +59,43 @@ public class MenuController implements IMenuController {
 		START {
 			@Override
 			String desc(){				
-				return "Indtast operatørnummer: "; 
+				return "State: START"; 
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
-				String input = null,name;
+				String input = null,name,nameInput;
 				int inputInt = 0;
 				try{
+					menu.show("Indtast operatørnummer:");
 					input = trans.RM20("Tast bruger ID (10-16):","","");
-					System.out.println(input);
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
 					}
+					trans.P111("");
 					inputInt = Integer.parseUnsignedInt(input);
 					name = fileAccess.getOpr(inputInt);
-					input = trans.RM20("Korrekt bruger:",name,"?");
-					if(input.equals(name)){
+					menu.show("Bruger valgt: "+name+". Er dette korrekt?");		
+					nameInput = trans.RM20("Bekræft bruger:",name," ?");
+					if (nameInput.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
+						return STOP;
+					}
+					if(nameInput.equals(name)) {
+						menu.show("Bruger bekræftet.");
 						mc.setOprID(inputInt);
 						return GET_PROD_NR;
 					} else {
+						menu.show("Forkert bruger. Prøv igen.");
+						trans.P111("Forkert bruger. Prøv igen.");
 						return START;
 					}
 				} catch (NumberFormatException | IOException e) {
 					try {
-						trans.P111("Forkert type input. Prøv igen");
+						trans.P111("Forkert input type. Prøv igen.");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -95,27 +107,40 @@ public class MenuController implements IMenuController {
 		GET_PROD_NR {
 			@Override
 			String desc() {
-				return "Indtast varenummer:";
+				return "State: GET_PROD_NR";
 			}
-
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
-				String input = null, product;
+				String input = null, product, prodInput;
 				int inputInt = 0;
 				try{
+					menu.show("Indtast varenummer:");
 					input = trans.RM20("Tast produkt ID (1-9):","","");
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
-					} else {
-						inputInt = Integer.parseUnsignedInt(input);
-						product = fileAccess.getProductName(inputInt);
-						if(trans.RM20("Bekræft produkt:",product,"?").equals(product)){
-							mc.setVareID(inputInt);
-							return SET_CONTAINER;
-						} else {
-							return GET_PROD_NR;
-						}
 					}
+					trans.P111("");
+					inputInt = Integer.parseUnsignedInt(input);
+					product = fileAccess.getProductName(inputInt);
+					menu.show("Produkt valgt: "+product+". Er dette korrekt?");
+					prodInput = trans.RM20("Bekræft produkt:",product," ?");
+					if (prodInput.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
+						return STOP;
+					}
+					if(prodInput.equals(product)){
+						menu.show("Produkt bekræftet.");
+						mc.setVareID(inputInt);
+						return SET_CONTAINER;
+					} else {
+						menu.show("Forkert produkt. Prøv igen.");
+						trans.P111("Forkert produkt. Prøv igen.");
+						return GET_PROD_NR;
+					}					
 				} catch (NumberFormatException | IOException e) {
 					try {
 						trans.P111("Forkert type input. Prøv igen");
@@ -129,21 +154,30 @@ public class MenuController implements IMenuController {
 		SET_CONTAINER {
 			@Override
 			String desc() {
-				return "Påsæt beholder og kvittér herefter (y/n)";
+				return "State: SET_CONTAINER";
 			}
 
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
-					input = trans.RM20("Påsæt beholder, kvittér:","OK","?");
-					System.out.println(input);
+					menu.show("Påsæt beholder og bekræft.");
+					input = trans.RM20("Påsæt beholder, bekræft:","OK","?");
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
-					} else if (input.equals(answer)) {
+					}
+					trans.P111("");
+					if (input.equals(answer)) {
+						menu.show("Beholder påsat");
 						mc.setTara(Double.parseDouble(trans.T()));
+						menu.show("Vægt tareret");
 						return ADD_PRODUCT;
 					} else {
+						menu.show("Beholder ej påsat. Prøv igen.");
+						trans.P111("Beholder ej påsat. Prøv igen.");
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
@@ -159,23 +193,33 @@ public class MenuController implements IMenuController {
 		ADD_PRODUCT {
 			@Override
 			String desc() {
-				return "Afvej vare og kvittér herefter (y/n)";
+				return "State: ADD_PRODUCT";
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
-					input = trans.RM20("Afvej vare og kvittér:","OK","?");
+					menu.show("Afvej vare og bekræft.");
+					input = trans.RM20("Afvej vare og bekræft:","OK","?");
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
-					} else if (input.equals(answer)) {
-						trans.P111("Efter vejning, kvittér med dør-knap");
+					}
+					trans.P111("");
+					if (input.equals(answer)) {
+						menu.show("Afvej og kvittér med dør-knap");
+						trans.P111("Afvej og kvittér med dør-knap");
 						trans.startST(true);
 						mc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
+						menu.show(mc.getAfvejning()+" afvejet.");
 						trans.P111("");
 						return REMOVE_CONTAINER;
 					} else {
+						menu.show("Vare ej afvejet. Prøv igen.");
+						trans.P111("Vare ej afvejet. Prøv igen.");
 						return ADD_PRODUCT;
 					}
 
@@ -192,20 +236,32 @@ public class MenuController implements IMenuController {
 		REMOVE_CONTAINER {
 			@Override
 			String desc() {
-				return "Fjern beholder, kvittér herefter (y/n)";
+				return "State: REMOVE_CONTAINER";
 			}
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
+					menu.show("Fjern beholder og bekræft.");
 					input = trans.RM20("Fjern beholder, kvittér:","OK","?");
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
-					} else if (input.equals(answer)) {
+					}
+					trans.P111("");
+					if (input.equals(answer)) {
 						fileAccess.updProductInventory(mc.getVareID(), mc.getAfvejning());
+						menu.show("Beholdning opdateret:");
+						menu.show("Vare ID: "+mc.getVareID()+", Afvejning: "+mc.getAfvejning());
 						fileAccess.writeLog(mc.getOprID(), mc.getVareID(), mc.getTara(), mc.getAfvejning());
+						menu.show("Log skrevet:");
+						menu.show("Operatør ID: "+mc.getOprID()+", Vare ID: "+mc.getVareID()+", Tara vægt: "+mc.getTara()+", Afvejning: "+mc.getAfvejning());
 						return RESTART;
 					} else {
+						menu.show("Beholder ej fjernet. Prøv igen.");
+						trans.P111("Beholder ej fjernet. Prøv igen");
 						return REMOVE_CONTAINER;
 					}
 
@@ -223,19 +279,27 @@ public class MenuController implements IMenuController {
 
 			@Override
 			String desc() {
-				return null;
+				return "State: RESTART";
 			}
 
 			@Override
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
+					menu.show("Foretag ny vejning?");
 					input = trans.RM20("Foretag ny vejning?","OK","");
+					menu.show(input);
 					if(input.toLowerCase().equals("q")){
+						menu.show("Proceduren afbrudt af brugeren");
+						trans.P111("");
 						return STOP;
-					} else if (input.equals(answer)) {
+					}
+					trans.P111("");
+					if (input.equals(answer)) {
+						menu.show("Proceduren genstartes.");
 						return GET_PROD_NR;
 					} else {
+						menu.show("Proceduren stoppes.");
 						return STOP;
 					}
 

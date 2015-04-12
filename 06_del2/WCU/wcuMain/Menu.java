@@ -8,7 +8,6 @@ public class Menu implements IMenu {
 	@Override
 	public void show(String txt){
 	System.out.println(txt);
-	System.out.println();
 	}
 	
 	
