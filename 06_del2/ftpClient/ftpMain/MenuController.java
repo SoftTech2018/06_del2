@@ -37,7 +37,7 @@ public class MenuController implements IMenuController{
 	}
 	
 	public void choice() throws NumberFormatException, IOException {
-		do {
+		while (run) {
 			switch (menu.showMenu()) {
 			case "1":
 				ftpC.getList();
@@ -58,9 +58,9 @@ public class MenuController implements IMenuController{
 				run=false;
 				break;
 			default:
-//				System.out.println("Forkert indtastning - pr�v igen!");
+				System.out.println("Forkert indtastning - pr�v igen!");
 			}	
-		} while (run);
+		}
 	}	
 	
 	public void specificSensor(String sensor) throws NumberFormatException, IOException { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
