@@ -21,5 +21,7 @@ public interface IFTPclient {
 	void getDataRETR(String host, int port, String savePath, String fileName) throws IOException;
 	
 	void recievePacket() throws IOException;
+	
+	void fileExists(String host, int port, String user, String pass, String fileName) throws IOException;
 
 }
