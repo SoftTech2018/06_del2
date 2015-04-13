@@ -9,29 +9,23 @@ import functionality.ZyboTransmitter;
 public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-//		int port;
-//		String host;
-//		
-//		if (args.length == 2){
-//			port = Integer.parseInt(args[1]);
-//			host = args[0];
-//		}
-//		else {
-//			port = 8000;
-//			host = "localhost";			
-//		}
+		int port;
+		String host, user, pass;
+		
+		if (args.length == 4) {
+			host = args[0];
+			port = Integer.parseInt(args[1]);
+			user = args[2];
+			pass = args[3];
+		}
+		else {
+			port = 21;
+			host = "ftp.missekat.dk";
+			user = "missekat.dk";
+			pass = "jakobmedc";
+		}
 		
 		Scanner menuScan = new Scanner(System.in);
-		
-		System.out.println("Indtast host (FTP-server)");
-		String host = menuScan.nextLine();
-		System.out.println("Indtast port");
-		String stringport = menuScan.nextLine();
-		int port = Integer.parseInt(stringport);
-		System.out.println("Indtast bruger: ");
-		String user = menuScan.nextLine();
-		System.out.println("Indtast password: ");
-		String pass = menuScan.nextLine();
 		
 		IFTPclient ftpC = new FTPclient();
 		IMenu menu = new Menu(menuScan);
