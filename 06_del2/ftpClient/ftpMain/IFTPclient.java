@@ -4,6 +4,8 @@ import java.io.IOException;
 
 public interface IFTPclient {
 	
+	void connectToServer(String host, int port, String user, String pass) throws IOException;
+	
 	/**
 	 * Downloader/kopierer fil fra FTP-serveren og ned på harddisken.
 	 * @param chooseFile - String, som indeholder filens navn og som indtastes af brugeren.
