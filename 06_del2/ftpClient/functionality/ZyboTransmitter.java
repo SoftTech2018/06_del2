@@ -29,7 +29,6 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	public String sendCommand(String command, int sensor, String parameter) throws IOException{
 		String message = command + " " + sensor;
 		String reply = "Forbindelse ikke oprettet";
-		if (connected == true) {
 			switch (command) {
 			case "S": { // Start måling
 				out.println(message);
@@ -57,12 +56,7 @@ public class ZyboTransmitter implements IZyboTransmitter {
 				reply = "Forkert kommando modtaget";
 			}
 			}
-		}
-		else {
-//			menu.udskriv(reply);
-//			menuCon.choice();
-			System.out.println(reply);
-		}
+	
 		return reply;
 	}
 	
@@ -85,7 +79,6 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	public void connected(BufferedReader in, PrintWriter out) {
 		this.out = out;
 		this.in = in;
-		this.connected = true;
 	}
 
 	

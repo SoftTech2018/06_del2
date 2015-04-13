@@ -31,6 +31,7 @@ public class MenuController implements IMenuController{
 			choice();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+			menu.udskriv("Kan ikke forbinde til host");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +66,7 @@ public class MenuController implements IMenuController{
 						specificSensor(input);
 						break;
 					default:
-						menu.udskriv("Forkert indput, prøv igen");
+						menu.udskriv("Forkert input, prøv igen");
 						choice();
 					}
 				}
@@ -97,5 +98,8 @@ public class MenuController implements IMenuController{
 	
 	public String downloadDestination(){
 		return menu.downloadDestination();
+	}
+	public void udskrivMenu(String string) {
+		menu.udskriv(string);
 	}
 }

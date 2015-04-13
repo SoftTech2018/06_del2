@@ -43,6 +43,7 @@ public interface IMenu {
 	/**
 	 * Udskriver i consollen
 	 * @param sendCommand: Hvad der skal udskrives
+	 * @return 
 	 */
 	void udskriv(String sendCommand);
 
