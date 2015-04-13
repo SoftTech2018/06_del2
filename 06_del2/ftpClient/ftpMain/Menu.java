@@ -57,7 +57,7 @@ public class Menu implements IMenu {
 	public String downloadFile(){
 		String output;
 		System.out.print("Skriv navnet p� filen du �nsker at hente: ");
-		output = menuScan.next();
+		output = menuScan.nextLine();
 		return output;
 	}
 	
@@ -65,7 +65,7 @@ public class Menu implements IMenu {
 		String output;
 		System.out.println("Hvor skal filen placeres p� harddisken?");
 		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/");
-		output = menuScan.next();
+		output = menuScan.nextLine();
 		return output;
 	}
 	public void udskriv(String print) {
