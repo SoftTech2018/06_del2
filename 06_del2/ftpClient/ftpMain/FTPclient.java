@@ -233,26 +233,31 @@ public class FTPclient implements IFTPclient{
 	}
 	
 	public void getDataRETR(String host, int port, String savePath, String fileName) throws IOException{
-
-		Socket datasocket = new Socket(host, port);
-		
-		InputStream inputStream = datasocket.getInputStream();
-		 
-		FileOutputStream outputStream = new FileOutputStream(savePath+fileName);
-//      FileOutputStream outputStream = new FileOutputStream("/Users/JacobWorckJepsen/Desktop/test/"+"license.txt");
-        
-        System.out.println("*****Fil downloades - vent*****");
-        
-        int BufferStoerrelse = 4096;
-        byte[] buffer = new byte[BufferStoerrelse];
-        int bytesRead = -1;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-
-        outputStream.close();
-        inputStream.close();
-        datasocket.close();
+		try{
+			Socket datasocket = new Socket(host, port);
+			
+			InputStream inputStream = datasocket.getInputStream();
+			
+			FileOutputStream outputStream = new FileOutputStream(savePath+fileName);
+			//      FileOutputStream outputStream = new FileOutputStream("/Users/JacobWorckJepsen/Desktop/test/"+"license.txt");
+			
+			System.out.println("*****Fil downloades - vent*****");
+			
+			int BufferStoerrelse = 4096;
+			byte[] buffer = new byte[BufferStoerrelse];
+			int bytesRead = -1;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+			
+			outputStream.close();
+			inputStream.close();
+			datasocket.close();
+		} catch (FileNotFoundException e){
+			System.out.println("**************************");
+			System.out.println("Ikke et gyldigt Directory!");
+			System.out.println("**************************");
+		}
 	}
 	
 	public void recievePacket() throws IOException{
