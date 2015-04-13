@@ -25,20 +25,5 @@ public interface IMenuController {
 	 * @throws IOException
 	 */
 	void specificSensor(String sensor) throws NumberFormatException, IOException;
-	
-	void udskrivMenu(String string);
-	
-//	/**
-//	 * Hvilken fil der skal downloades.
-//	 * @return : Returnerer String, f.eks.: selfie2.JPG
-//	 */
-//	String download();
-//
-//	/**
-//	 * Hvor på harddisken filen skal downloades/kopieres til.
-//	 * @return Returnerer String, f.eks.: C:/Users/JACOB/Desktop/
-//	 */
-//	String downloadDestination();
-	
 
 }

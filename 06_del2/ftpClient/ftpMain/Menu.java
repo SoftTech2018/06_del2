@@ -1,6 +1,6 @@
 package ftpMain;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu implements IMenu {
@@ -11,20 +11,25 @@ public class Menu implements IMenu {
 		this.menuScan = menuScan;
 	}
 	
+	@Override
 	public String showMenu() {
-		
 		String out;
+		System.out.println("**************************************");
 		System.out.println("Indtast 1 for list-kommando");
 		System.out.println("Indtast 2 for retrieve-kommando");
 		System.out.println("Indtast 3 for sensor-menu");
 		System.out.println("Indtast 4 for at afslutte programmet");
+		System.out.println("**************************************");
+		System.out.println("");
 		out = menuScan.nextLine();
 		return out;
 		
 	}
 	
+	@Override
 	public String sensorOverblik() {
 		String out;
+		System.out.println("**************************************");
 		System.out.println("Sensor overblik for alle sensorere i systemet");
 		System.out.println("Indtast tal for hvilken sensor du vil bruge");
 		System.out.println("Tast 1 for sensor 1");
@@ -32,46 +37,74 @@ public class Menu implements IMenu {
 		System.out.println("Tast 222 for sensor 222");
 		System.out.println("Tast 7 for sensor 7");
 		System.out.println("Tast e for at g� tilbage til hovedmenu");
-		
+		System.out.println("**************************************");
+		System.out.println("");
 		out = menuScan.nextLine();
 		return out;
 	}
 	
+	@Override
 	public String sensorMenu() {
 		String out;
+		System.out.println("**************************************");
 		System.out.println("Indtast hvilken funktion der skal udf�res");
 		System.out.println("I: Bed sensor om at ændre sit samplingsinterval.");
 		System.out.println("S: Bed sensor om at begynde m�ling.");
 		System.out.println("B: Bed sensor om at stoppe m�ling.");
 		System.out.println("e: G� tilbage til hovedmenu.");
+		System.out.println("**************************************");
+		System.out.println("");
 		out = menuScan.nextLine();
 		return out;
 	}
+	
+	@Override
 	public String setSampling() {
 		String out;
+		System.out.println("**************************************");
 		System.out.println("Hvor meget vil du �ndre samplingsintervallet? (eks: 12300)");
+		System.out.println("**************************************");
+		System.out.println();
 		out = menuScan.nextLine();
 		return out;
 	}
 	
+	@Override
 	public String downloadFileName(){
 		String output;
-		System.out.print("Skriv navnet paa filen du oensker at hente: ");
+		System.out.println("**************************************");
+		System.out.println("Skriv navnet paa filen du oensker at hente: ");
+		System.out.println("**************************************");
+		System.out.println();
 		output = menuScan.nextLine();
 		return output;
 	}
 	
+	@Override
 	public String downloadDestination(){
 		String output;
+		System.out.println("**************************************");
 		System.out.println("Hvor skal filen placeres paa harddisken?");
 		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/\r\n"+"NB: slut af med /");
+		System.out.println("**************************************");
+		System.out.println();
 		output = menuScan.nextLine();
 		return output;
 	}
+	
+	@Override
 	public void udskriv(String print) {
+		System.out.println("**************************************");
 		System.out.println(print);
+		System.out.println("**************************************");
+		System.out.println();
 	}
 
-	
-	
+	@Override
+	public void showList(ArrayList<String> fileList) {
+		for (String files : fileList){
+			System.out.println(files);
+		}
+		System.out.println();
+	}
 }

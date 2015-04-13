@@ -47,11 +47,14 @@ public class MenuController implements IMenuController{
 		while (run) {
 			switch (menu.showMenu()) {
 			case "1":
-				ftpC.connectToServerLIST(host, port, user, pass);
+				ftpC.executeCommand(host, port, "LIST", user, pass, null, null);
+				menu.showList(ftpC.getFileList());
 				break;
-			case "2":
-				
-				ftpC.connectToServerRETR(host, port, user, pass, menu.downloadDestination(), menu.downloadFileName());
+			case "2":		
+				String path = menu.downloadDestination();
+				String fileName = menu.downloadFileName();
+				menu.udskriv("*** Filen hentes ***");
+				menu.udskriv(ftpC.executeCommand(host, port, "RETR", user, pass, path, fileName));				
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -73,7 +76,7 @@ public class MenuController implements IMenuController{
 						specificSensor(input);
 						break;
 					default:
-						menu.udskriv("Forkert input, pr�v igen");
+						menu.udskriv("Forkert input, prøv igen");
 						choice();
 					}
 				}
@@ -97,16 +100,5 @@ public class MenuController implements IMenuController{
 		} else {
 			menu.udskriv(zbtr.sendCommand(input, Integer.parseInt(sensor), null));
 		}
-	}
-	
-//	public String download(){
-//		return menu.downloadFile();
-//	}
-	
-//	public String downloadDestination(){
-//		return menu.downloadDestination();
-//	}
-	public void udskrivMenu(String string) {
-		menu.udskriv(string);
 	}
 }

@@ -3,13 +3,10 @@ package ftpMain;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public interface IFTPclient {
-	
-	void connectToServerLIST(String host, int port, String user, String pass) throws IOException;
-	
-	void connectToServerRETR(String host, int port, String user, String pass, String savePath, String fileName) throws IOException;
-	
+		
 	void sendLine(String line, BufferedWriter bw) throws IOException;
 	
 	String readLine(BufferedReader br) throws IOException;
@@ -18,10 +15,13 @@ public interface IFTPclient {
 	
 	void getDataLIST(String host, int port) throws IOException;
 	
-	void getDataRETR(String host, int port, String savePath, String fileName) throws IOException;
+	boolean getDataRETR(String host, int port, String savePath, String fileName, BufferedReader br) throws IOException;
+
+	String executeCommand(String host, int port, String command, String user,
+			String pass, String savePath, String fileName)
+			throws NumberFormatException, IOException;
+
+	ArrayList<String> getFileList();
 	
-	void recievePacket() throws IOException;
-	
-	void fileExists(String host, int port, String user, String pass, String fileName) throws IOException;
 
 }

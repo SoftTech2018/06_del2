@@ -1,6 +1,6 @@
 package ftpMain;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public interface IMenu {
 
@@ -46,6 +46,13 @@ public interface IMenu {
 	 * @return 
 	 */
 	void udskriv(String sendCommand);
+	
+
+	/**
+	 * Udskriver en liste af Strings
+	 * @param fileList Listen der skal udskrives
+	 */
+	void showList(ArrayList<String> fileList);
 
 	
 
