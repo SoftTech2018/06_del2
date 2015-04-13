@@ -90,10 +90,7 @@ public class MenuController implements IMenuController{
 	
 	public void specificSensor(String sensor) throws NumberFormatException, IOException { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
 		String input = menu.sensorMenu();	
-		if (input.equals("e")) {
-			choice();
-		}		
-		if(input.equals("I")) {
+		if(input.equalsIgnoreCase("I")) {
 			String sampling = menu.setSampling();
 			menu.udskriv(zbtr.sendCommand(input, Integer.parseInt(sensor), sampling));
 		} else {

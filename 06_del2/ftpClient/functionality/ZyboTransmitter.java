@@ -2,19 +2,14 @@ package functionality;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
-	
-	
-	
+
 	/**
 	 * Sender kommando til Zybo-board for en specifik sensor
 	 * @param command S = Start måling, B = Stop måling, T = Returner måling, I = Sæt samplingsinterval
@@ -26,37 +21,37 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	public String sendCommand(String command, int sensor, String parameter) throws IOException{
 		String message = command + " " + sensor;
 		String reply = "Forbindelse ikke oprettet";
-			switch (command) {
-			case "S": { // Start måling
-				out.println(message);
-				reply = in.readLine();
-			}
-				break;
-			case "B": { // Stop måling
-				out.println(message);
-				reply = in.readLine();
-			}
-				break;
-			case "T": { // Returner måling
-				out.println(message);
-				reply = in.readLine().substring(2); // Antager svaret er noget lignende "T 1.54232"
-			}
-				break;
-			case "I": { // Sæt samplingsinterval
-				if (parameter == null)
-					parameter = "12000";
-				out.println(message + " " + parameter); // F.eks. "I 222 12000" betyder at sensor 222 skal ændre samplingsinterval til 120000
-				reply = in.readLine();
-			}
-				break;
-			default: {
-				reply = "Forkert kommando modtaget";
-			}
-			}
-	
+		switch (command.toUpperCase()) {
+		case "S": { // Start måling
+			out.println(message);
+			reply = in.readLine();
+		}
+		break;
+		case "B": { // Stop måling
+			out.println(message);
+			reply = in.readLine();
+		}
+		break;
+		case "T": { // Returner måling
+			out.println(message);
+			reply = in.readLine().substring(2); // Antager svaret er noget lignende "T 1.54232"
+		}
+		break;
+		case "I": { // Sæt samplingsinterval
+			if (parameter == null)
+				parameter = "12000";
+			out.println(message + " " + parameter); // F.eks. "I 222 12000" betyder at sensor 222 skal ændre samplingsinterval til 120000
+			reply = in.readLine();
+		}
+		break;
+		default: {
+			reply = "Forkert kommando modtaget";
+		}
+		}
+
 		return reply;
 	}
-	
+
 	/**
 	 * Beder Zybo-boardet om en liste af aktive sensorer
 	 * @return Liste af aktive sensorer
@@ -77,7 +72,4 @@ public class ZyboTransmitter implements IZyboTransmitter {
 		this.out = out;
 		this.in = in;
 	}
-
-	
-
 }
