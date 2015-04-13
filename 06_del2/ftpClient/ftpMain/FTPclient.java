@@ -22,8 +22,8 @@ import java.net.UnknownHostException;
 public class FTPclient implements IFTPclient{
 	
 	private Socket socket = null;
-	private BufferedReader reader = null;
-	private BufferedWriter writer = null;
+	private BufferedReader br = null;
+	private BufferedWriter bw = null;
 	private static boolean DEBUG = true;
 	DatagramSocket ds;
 	
@@ -37,8 +37,8 @@ public class FTPclient implements IFTPclient{
 		}
 		
 		socket = new Socket(host, port);
-		reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		
 		String response = readLine();
 		if (!response.startsWith("220 ")){ //220 = Service ready for new user
@@ -138,8 +138,8 @@ public class FTPclient implements IFTPclient{
 			throw new IOException("FTP klienten har ingen forbindelse til serveren.");
 		}
 		try {
-			writer.write(line + "\r\n");
-			writer.flush();
+			bw.write(line + "\r\n");
+			bw.flush();
 			if (DEBUG) {
 				System.out.println("> " + line);
 			}
@@ -150,7 +150,7 @@ public class FTPclient implements IFTPclient{
 	}
 	
 	public String readLine() throws IOException {
-		String line = reader.readLine();
+		String line = br.readLine();
 		if (DEBUG) {
 			System.out.println("< " + line);
 		}
