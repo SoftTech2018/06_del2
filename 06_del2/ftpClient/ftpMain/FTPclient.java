@@ -17,14 +17,14 @@ public class FTPclient implements IFTPclient{
 	private boolean DEBUG = false;
 	private ArrayList<String> fileList;
 	
-	public void sendLine(String line, BufferedWriter bw) throws IOException {
+	private void sendLine(String line, BufferedWriter bw) throws IOException {
 			bw.write(line + "\r\n");
 			bw.flush();
 			if (DEBUG) 
 				System.out.println("> " + line);
 	}
 	
-	public String readLine(BufferedReader br) throws IOException {
+	private String readLine(BufferedReader br) throws IOException {
 		String line = br.readLine();
 		if (DEBUG) {
 			System.out.println("< " + line);
@@ -32,9 +32,7 @@ public class FTPclient implements IFTPclient{
 		return line;
 	}
 	
-	// Modtager et PASV reply fra en server (f.eks. "227 Entering Passive Mode (195,47,247,238,249,136).") og returnerer ip adressen + portnummeret
-	// I ovenstående tilfælde ip = 195.47.247.238, portnummer = 249*256+136. 
-	public String[] parsePASV(String pasvReturn){
+	private String[] parsePASV(String pasvReturn){
 		int start = 0, end = 0;
 		while (pasvReturn.charAt(start) != '('){
 			start++;
@@ -53,7 +51,7 @@ public class FTPclient implements IFTPclient{
 		return new String[]{ip, Integer.toString(port)};
 	}
 	
-	public void getDataLIST(String host, int port) throws IOException{
+	private void getDataLIST(String host, int port) throws IOException{
 		fileList = new ArrayList<String>();
 		try (Socket datasocket = new Socket(host, port);
 			 BufferedReader br = new BufferedReader(new InputStreamReader(datasocket.getInputStream()));){
@@ -68,7 +66,7 @@ public class FTPclient implements IFTPclient{
 		}
 	}
 	
-	public boolean getDataRETR(String host, int port, String savePath, String fileName, BufferedReader br){
+	private boolean getDataRETR(String host, int port, String savePath, String fileName, BufferedReader br){
 		File fil = new File(savePath + fileName);
 		try ( 	Socket datasocket = new Socket(host, port);
 				InputStream inputStream = datasocket.getInputStream();
