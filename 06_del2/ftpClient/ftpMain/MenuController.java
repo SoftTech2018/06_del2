@@ -50,8 +50,24 @@ public class MenuController implements IMenuController{
 				if (input.equals("e")) {
 					choice();
 				}
-				else {
-					specificSensor(input);
+				else { 
+					switch (input) {
+					case "1":
+						specificSensor(input);
+						break;
+					case "4":
+						specificSensor(input);
+						break;
+					case "222":
+						specificSensor(input);
+						break;
+					case "7":
+						specificSensor(input);
+						break;
+					default:
+						menu.udskriv("Forkert indput, prøv igen");
+						choice();
+					}
 				}
 				break;
 			case "4":
