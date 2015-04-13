@@ -26,7 +26,6 @@ public class FTPclient implements IFTPclient{
 	private BufferedReader br = null;
 	private BufferedWriter bw = null;
 	private static boolean DEBUG = true;
-	DatagramSocket ds;
 	
 	public FTPclient(){
 		
@@ -68,7 +67,7 @@ public class FTPclient implements IFTPclient{
 		String[] p = parsePASV(readLine());
 		sendLine("LIST");
 		
-		getData(p[0], Integer.parseInt(p[1]));
+		getDataLIST(p[0], Integer.parseInt(p[1]));
 		
 	}
 	
@@ -103,7 +102,21 @@ public class FTPclient implements IFTPclient{
 		}
 		readLine();
 		
+		sendLine("TYPE I");
+		readLine();
+		
 		sendLine("PASV");
+		
+		String[] p = parsePASV(readLine());
+		
+		sendLine("RETR license.txt");
+		
+		getDataRETR(p[0], Integer.parseInt(p[1]));
+		
+		
+		
+//		getDataRETR(p[0], Integer.parseInt(p[1]));
+		
 	}
 
 	
@@ -177,7 +190,6 @@ public class FTPclient implements IFTPclient{
         }
 	}
 	
-	//HERFRA OG NED SKAL NOK FJERNES. UBRUGTE METODER
 	
 	public void sendLine(String line) throws IOException {
 		if (socket == null) {
@@ -224,14 +236,14 @@ public class FTPclient implements IFTPclient{
 		return new String[]{ip, Integer.toString(port)};
 	}
 	
-	public void getData(String host, int port) throws IOException{
+	public void getDataLIST(String host, int port) throws IOException{
 
 		Socket datasocket = new Socket(host, port);
 		br = new BufferedReader(new InputStreamReader(datasocket.getInputStream()));
 		bw = new BufferedWriter(new OutputStreamWriter(datasocket.getOutputStream()));
 		
 		if (DEBUG)
-			System.out.println("Tilsluttet Datagram: " + ds.isConnected());
+			System.out.println("Tilsluttet Datagram: " + datasocket.isConnected());
 		
 		System.out.println("**************Start***************");
         
@@ -242,7 +254,31 @@ public class FTPclient implements IFTPclient{
         }
         
         System.out.println("**************Slut****************");
+        br.close();
+        bw.close();
+        datasocket.close();
+	}
+	
+	public void getDataRETR(String host, int port) throws IOException{
+
+		Socket datasocket = new Socket(host, port);
+		
+		InputStream inputStream = datasocket.getInputStream();
+		 
+        FileOutputStream outputStream = new FileOutputStream("/Users/JacobWorckJepsen/Desktop/test/"+"license.txt");
         
+        System.out.println("*****Fil downloades - vent*****");
+        
+        int BufferStoerrelse = 4096;
+        byte[] buffer = new byte[BufferStoerrelse];
+        int bytesRead = -1;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        outputStream.close();
+        inputStream.close();
+        datasocket.close();
 	}
 	
 	public void recievePacket() throws IOException{
@@ -253,7 +289,7 @@ public class FTPclient implements IFTPclient{
 //			System.out.println("Sendt packet");
         
         packet = new DatagramPacket(buf, buf.length);
-        ds.receive(packet);
+//        ds.receive(packet);
         if (DEBUG)
 			System.out.println("Modtaget packet");
         String received = new String(packet.getData(), 0, packet.getLength());

@@ -26,7 +26,9 @@ public interface IFTPclient {
 	
 	String[] parsePASV(String pasvReturn);
 	
-	void getData(String host, int port) throws IOException;
+	void getDataLIST(String host, int port) throws IOException;
+	
+	void getDataRETR(String host, int port) throws IOException;
 	
 	void recievePacket() throws IOException;
 
