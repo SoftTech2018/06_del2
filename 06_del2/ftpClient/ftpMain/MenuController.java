@@ -41,10 +41,12 @@ public class MenuController implements IMenuController{
 		while (run) {
 			switch (menu.showMenu()) {
 			case "1":
-				ftpC.getList();
+				ftpC.connectToServerLIST("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
+//				ftpC.getList();
 				break;
 			case "2":
-				ftpC.downloadFile(download(), downloadDestination());
+				ftpC.connectToServerRETR("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
+//				ftpC.downloadFile(download(), downloadDestination());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -66,7 +68,7 @@ public class MenuController implements IMenuController{
 						specificSensor(input);
 						break;
 					default:
-						menu.udskriv("Forkert input, prøv igen");
+						menu.udskriv("Forkert input, prï¿½v igen");
 						choice();
 					}
 				}

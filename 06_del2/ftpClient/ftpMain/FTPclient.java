@@ -22,6 +22,7 @@ import java.net.UnknownHostException;
 public class FTPclient implements IFTPclient{
 	
 	private Socket socket = null;
+	private Socket dataSocket = null;
 	private BufferedReader br = null;
 	private BufferedWriter bw = null;
 	private static boolean DEBUG = true;
@@ -31,7 +32,7 @@ public class FTPclient implements IFTPclient{
 		
 	}
 	
-	public synchronized void connectToServer(String host, int port, String user, String pass) throws IOException{
+	public synchronized void connectToServerLIST(String host, int port, String user, String pass) throws IOException{
 		if (socket != null){
 			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
 		}
@@ -60,7 +61,49 @@ public class FTPclient implements IFTPclient{
 		if (!response.startsWith("230-User ")){
 			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
 		}
+		readLine();
 		
+		sendLine("PASV");
+
+		String[] p = parsePASV(readLine());
+		sendLine("LIST");
+		
+		getData(p[0], Integer.parseInt(p[1]));
+		
+	}
+	
+	public synchronized void connectToServerRETR(String host, int port, String user, String pass) throws IOException{
+		if (socket != null){
+			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
+		}
+		
+		socket = new Socket(host, port);
+		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		
+		String response = readLine();
+		if (!response.startsWith("220 ")){ //220 = Service ready for new user
+			throw new IOException("FTP klienten modtog ukendt respons ved oprettelse af forbindelse til server: "+response);
+		}
+		
+		sendLine("USER " + user);
+		
+		response = readLine();
+		
+		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter p� Password
+			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
+		}
+		
+		sendLine("PASS " + pass);
+		
+		response = readLine();
+		
+		if (!response.startsWith("230-User ")){
+			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
+		}
+		readLine();
+		
+		sendLine("PASV");
 	}
 
 	
@@ -182,11 +225,23 @@ public class FTPclient implements IFTPclient{
 	}
 	
 	public void getData(String host, int port) throws IOException{
-		ds = new DatagramSocket();
-		ds.connect(InetAddress.getByName(host), port);
+
+		Socket datasocket = new Socket(host, port);
+		br = new BufferedReader(new InputStreamReader(datasocket.getInputStream()));
+		bw = new BufferedWriter(new OutputStreamWriter(datasocket.getOutputStream()));
 		
 		if (DEBUG)
 			System.out.println("Tilsluttet Datagram: " + ds.isConnected());
+		
+		System.out.println("**************Start***************");
+        
+        String line = null;
+
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+        
+        System.out.println("**************Slut****************");
         
 	}
 	
