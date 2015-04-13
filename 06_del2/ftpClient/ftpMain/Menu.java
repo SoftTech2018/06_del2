@@ -23,31 +23,6 @@ public class Menu implements IMenu {
 		
 	}
 	
-	//SKAL SANDSYNLIGVIS FJERNES
-	public void list(String list, String fileArray[]) { //String list returnerer listen af filer pï¿½ FTP-serveren, omdannet til strings
-		System.out.println("Liste over filer pï¿½ ftp-server: ");
-		for (int i = 0; i < fileArray.length; i++) {
-			System.out.println(fileArray[i]);
-		}
-		System.out.println(list); //Her skal der laves en for lï¿½kke der printer alle filtitlerne ud
-	
-	}
-	
-	//SKAL SANDSYNLIGVIS FJERNES
-	public void retrieve(File file, String fileArray[]) { //Hvilken type skal filen vï¿½re??, fileArray bruges i menuControlleren til at holde styr pï¿½ filerne
-		for (int i = 0; i < fileArray.length; i++) {
-			System.out.println(fileArray[i]);
-		}
-		System.out.println("Indtast hvilket filnumer du vil hente");
-		String out;
-		out = menuScan.nextLine();
-		for (int i = 0; i < fileArray.length; i++) {
-			if (out == fileArray[i]) { //Hvad skal der stï¿½ i stedet for?
-			System.out.println("Du har hentet fil nr" + fileArray[i]); //hï¿½jst sandsynligt ikke den optimale lï¿½sning
-			}
-		} 
-	}
-	
 	public String sensorOverblik() {
 		String out;
 		System.out.println("Sensor overblik for alle sensorere i systemet");
@@ -88,26 +63,13 @@ public class Menu implements IMenu {
 	
 	public String downloadDestination(){
 		String output;
-		System.out.println("Hvor skal filen placeres på harddisken?");
+		System.out.println("Hvor skal filen placeres pï¿½ harddisken?");
 		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/");
 		output = menuScan.next();
 		return output;
 	}
 	public void udskriv(String print) {
 		System.out.println(print);
-	}
-
-	//SKAL SANDSYNLIGVIS FJERNES
-	@Override
-	public void list() {
-		// TODO Auto-generated method stub
-		
-	}
-	//SKAL SANDSYNLIGVIS FJERNES
-	@Override
-	public void retrieve() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	

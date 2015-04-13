@@ -6,10 +6,6 @@ public interface IMenu {
 
 	String showMenu();
 
-	void list();
-
-	void retrieve();
-
 	String sensorMenu();
 
 	String sensorOverblik();
