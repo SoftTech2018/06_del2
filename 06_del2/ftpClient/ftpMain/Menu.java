@@ -93,6 +93,9 @@ public class Menu implements IMenu {
 		output = menuScan.next();
 		return output;
 	}
+	public void udskriv(String print) {
+		System.out.println(print);
+	}
 
 	//SKAL SANDSYNLIGVIS FJERNES
 	@Override

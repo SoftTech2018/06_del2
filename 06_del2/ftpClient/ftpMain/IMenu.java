@@ -20,6 +20,10 @@ public interface IMenu {
 	
 	String downloadDestination();
 
+	void udskriv(String sendCommand);
+
+	
+
 	
 
 

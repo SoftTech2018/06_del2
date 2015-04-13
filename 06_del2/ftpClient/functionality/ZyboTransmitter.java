@@ -9,10 +9,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ftpMain.IMenu;
+import ftpMain.Menu;
+
 public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
 	private boolean connected;
+	
 	
 	/**
 	 * Sender kommando til Zybo-board for en specifik sensor
@@ -24,7 +28,7 @@ public class ZyboTransmitter implements IZyboTransmitter {
 	 */
 	public String sendCommand(String command, int sensor, String parameter) throws IOException{
 		String message = command + " " + sensor;
-		String reply = null;
+		String reply = "Forbindelse ikke oprettet";
 		if (connected == true) {
 			switch (command) {
 			case "S": { // Start måling
@@ -53,6 +57,10 @@ public class ZyboTransmitter implements IZyboTransmitter {
 				reply = "Forkert kommando modtaget";
 			}
 			}
+		}
+		else {
+			menu.udskriv(reply);
+			menuCon.choice();
 		}
 		return reply;
 	}

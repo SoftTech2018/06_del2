@@ -69,9 +69,9 @@ public class MenuController implements IMenuController{
 		}		
 		if(input.equals("1")) {
 			String sampling = menu.setSampling();
-			zbtr.sendCommand(input, Integer.parseInt(sensor), sampling);
+			menu.udskriv(zbtr.sendCommand(input, Integer.parseInt(sensor), sampling));
 		} else {
-			zbtr.sendCommand(input, Integer.parseInt(sensor), null);
+			menu.udskriv(zbtr.sendCommand(input, Integer.parseInt(sensor), null));
 		}
 	}
 	
