@@ -31,38 +31,6 @@ public class FTPclient implements IFTPclient{
 		
 	}
 	
-	public synchronized void connectToServer(String host, int port, String user, String pass) throws IOException{
-		if (socket != null){
-			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
-		}
-		
-		socket = new Socket(host, port);
-		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-		
-		String response = readLine();
-		if (!response.startsWith("220 ")){ //220 = Service ready for new user
-			throw new IOException("FTP klienten modtog ukendt respons ved oprettelse af forbindelse til server: "+response);
-		}
-		
-		sendLine("USER " + user);
-		
-		response = readLine();
-		
-		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter p� Password
-			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
-		}
-		
-		sendLine("PASS " + pass);
-		
-		response = readLine();
-		
-		if (!response.startsWith("230-User ")){
-			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
-		}
-		
-	}
-	
 	public void downloadFile(String chooseFile, String save){
 		String specificFile = chooseFile;
 		String ftpUrl = "ftp://missekat.dk:jakobmedc@ftp.missekat.dk/wp-content/uploads/photo-gallery/" + specificFile + ";type=i";

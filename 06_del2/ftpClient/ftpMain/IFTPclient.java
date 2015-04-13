@@ -4,8 +4,6 @@ import java.io.IOException;
 
 public interface IFTPclient {
 	
-	void connectToServer(String host, int port, String user, String pass) throws IOException;
-	
 	void downloadFile(String chooseFile, String save);
 	
 	void getList();
