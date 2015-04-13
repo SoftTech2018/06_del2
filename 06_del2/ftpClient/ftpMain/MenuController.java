@@ -37,13 +37,15 @@ public class MenuController implements IMenuController{
 	}
 	
 	public void choice() throws NumberFormatException, IOException {
-		while (run) {
+//		while (run) {
 			switch (menu.showMenu()) {
 			case "1":
 				ftpC.getList();
+				choice();
 				break;
 			case "2":
 				ftpC.downloadFile(download(), downloadDestination());
+				choice();
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -52,15 +54,14 @@ public class MenuController implements IMenuController{
 				}
 				else {
 					specificSensor(input);
+					choice();
 				}
 				break;
 			case "4":
 				run=false;
 				break;
 			default:
-				System.out.println("Forkert indtastning - pr�v igen!");
 			}	
-		}
 	}	
 	
 	public void specificSensor(String sensor) throws NumberFormatException, IOException { //Her skal der kaldes en metode i den socket-klasse der har kontakt til zybo-boardets sensorere
