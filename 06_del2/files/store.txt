@@ -4,6 +4,6 @@
 4,Oblique,98.7481
 5,Voluptaria,100
 6,Eloquentiam,100
-7,Sensibus,100
+7,Sensibus,98.7481
 8,Deseruisse,100
 9,Maiestatis,98.7481
