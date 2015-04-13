@@ -28,11 +28,15 @@ public class Main {
 		System.out.println("Indtast port");
 		String stringport = menuScan.nextLine();
 		int port = Integer.parseInt(stringport);
+		System.out.println("Indtast bruger: ");
+		String user = menuScan.nextLine();
+		System.out.println("Indtast password: ");
+		String pass = menuScan.nextLine();
 		
 		IFTPclient ftpC = new FTPclient();
 		IMenu menu = new Menu(menuScan);
 		IZyboTransmitter zbtr = new ZyboTransmitter();
-		IMenuController menuCon = new MenuController(menu, zbtr, ftpC, host, port);
+		IMenuController menuCon = new MenuController(menu, zbtr, ftpC, host, port, user, pass);
 		
 		
 	}

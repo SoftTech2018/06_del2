@@ -15,15 +15,17 @@ public class MenuController implements IMenuController{
 	private IZyboTransmitter zbtr;
 	private IFTPclient ftpC;
 	private boolean run=true;
-	private String host;
+	private String host, user, pass;
 	private int port;
 	
-	public MenuController(IMenu menu, IZyboTransmitter zbtr, IFTPclient ftpC, String host, int port) throws NumberFormatException, IOException{ 
+	public MenuController(IMenu menu, IZyboTransmitter zbtr, IFTPclient ftpC, String host, int port, String user, String pass) throws NumberFormatException, IOException{ 
 		this.menu = menu;
 		this.zbtr = zbtr;
 		this.ftpC = ftpC;
 		this.port = port;
 		this.host = host;
+		this.user = user;
+		this.pass = pass;
 		connectZybo(host, port);
 	}
 	
@@ -45,11 +47,11 @@ public class MenuController implements IMenuController{
 		while (run) {
 			switch (menu.showMenu()) {
 			case "1":
-				ftpC.connectToServerLIST(host, port, "missekat.dk", "jakobmedc");
+				ftpC.connectToServerLIST(host, port, user, pass);
 				break;
 			case "2":
 				
-				ftpC.connectToServerRETR(host, port, "missekat.dk", "jakobmedc", menu.downloadDestination(), menu.downloadFileName());
+				ftpC.connectToServerRETR(host, port, user, pass, menu.downloadDestination(), menu.downloadFileName());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
