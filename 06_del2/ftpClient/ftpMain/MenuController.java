@@ -42,11 +42,10 @@ public class MenuController implements IMenuController{
 			switch (menu.showMenu()) {
 			case "1":
 				ftpC.connectToServerLIST("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
-//				ftpC.getList();
 				break;
 			case "2":
+				
 				ftpC.connectToServerRETR("ftp.missekat.dk", 21, "missekat.dk", "jakobmedc");
-//				ftpC.downloadFile(download(), downloadDestination());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();

@@ -23,12 +23,11 @@ public class Main {
 		
 		Scanner menuScan = new Scanner(System.in);
 		
-//		System.out.println("Indtast host (FTP-server)");
-//		String host = menuScan.next();
-//		System.out.println("Indtast port");
-//		int port = menuScan.nextInt();
-		String host = "ftp.missekat.dk";
-		int port = 21;
+		System.out.println("Indtast host (FTP-server)");
+		String host = menuScan.nextLine();
+		System.out.println("Indtast port");
+		String stringport = menuScan.nextLine();
+		int port = Integer.parseInt(stringport);
 		
 		IFTPclient ftpC = new FTPclient();
 		IMenu menu = new Menu(menuScan);
