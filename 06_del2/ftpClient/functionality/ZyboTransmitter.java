@@ -9,13 +9,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ftpMain.IMenu;
-import ftpMain.Menu;
-
 public class ZyboTransmitter implements IZyboTransmitter {
 	private PrintWriter out;
 	private BufferedReader in;
-	private boolean connected;
+	
 	
 	
 	/**
