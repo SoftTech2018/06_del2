@@ -1,5 +1,7 @@
 package ftpMain;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 public interface IFTPclient {
@@ -20,9 +22,9 @@ public interface IFTPclient {
 	 */
 	void getList();
 	
-	void sendLine(String line) throws IOException;
+	void sendLine(String line, BufferedWriter bw) throws IOException;
 	
-	String readLine() throws IOException;
+	String readLine(BufferedReader br) throws IOException;
 	
 	String[] parsePASV(String pasvReturn);
 	

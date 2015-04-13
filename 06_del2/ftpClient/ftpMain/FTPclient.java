@@ -21,10 +21,7 @@ import java.net.UnknownHostException;
 
 public class FTPclient implements IFTPclient{
 	
-	private Socket socket = null;
-	private Socket dataSocket = null;
-	private BufferedReader br = null;
-	private BufferedWriter bw = null;
+	
 	private static boolean DEBUG = true;
 	
 	public FTPclient(){
@@ -32,91 +29,90 @@ public class FTPclient implements IFTPclient{
 	}
 	
 	public synchronized void connectToServerLIST(String host, int port, String user, String pass) throws IOException{
-		if (socket != null){
-			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
-		}
 		
-		socket = new Socket(host, port);
-		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		Socket socket = new Socket(host, port);
+		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		
-		String response = readLine();
+		String response = readLine(br);
 		if (!response.startsWith("220 ")){ //220 = Service ready for new user
 			throw new IOException("FTP klienten modtog ukendt respons ved oprettelse af forbindelse til server: "+response);
 		}
 		
-		sendLine("USER " + user);
+		sendLine("USER " + user, bw);
 		
-		response = readLine();
+		response = readLine(br);
 		
 		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter p� Password
 			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
 		}
 		
-		sendLine("PASS " + pass);
+		sendLine("PASS " + pass, bw);
 		
-		response = readLine();
+		response = readLine(br);
 		
 		if (!response.startsWith("230-User ")){
 			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
 		}
-		readLine();
+		readLine(br);
 		
-		sendLine("PASV");
+		sendLine("PASV", bw);
 
-		String[] p = parsePASV(readLine());
-		sendLine("LIST");
+		String[] p = parsePASV(readLine(br));
+		sendLine("LIST", bw);
 		
 		getDataLIST(p[0], Integer.parseInt(p[1]));
+		
+		sendLine("QUIT", bw);
+		readLine(br);
+		
+		socket.close();	
 		
 	}
 	
 	public synchronized void connectToServerRETR(String host, int port, String user, String pass) throws IOException{
-		if (socket != null){
-			throw new IOException("FTP klienten er allerede forbundet til FTP-serveren");
-		}
 		
-		socket = new Socket(host, port);
-		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		Socket socket = new Socket(host, port);
+		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		
-		String response = readLine();
+		String response = readLine(br);
 		if (!response.startsWith("220 ")){ //220 = Service ready for new user
 			throw new IOException("FTP klienten modtog ukendt respons ved oprettelse af forbindelse til server: "+response);
 		}
 		
-		sendLine("USER " + user);
+		sendLine("USER " + user, bw);
 		
-		response = readLine();
+		response = readLine(br);
 		
 		if (!response.startsWith("331 ")){ //331 = Brugernavn OK, venter p� Password
 			throw new IOException("FTP klienten modtog forkert respons fra server efter brugernavn blev indtastet: "+ response);
 		}
 		
-		sendLine("PASS " + pass);
+		sendLine("PASS " + pass, bw);
 		
-		response = readLine();
+		response = readLine(br);
 		
 		if (!response.startsWith("230-User ")){
 			throw new IOException("FTP klienten ingen  adgang med det givne password: "+ response);
 		}
-		readLine();
+		readLine(br);
 		
-		sendLine("TYPE I");
-		readLine();
+		sendLine("TYPE I", bw);
+		readLine(br);
 		
-		sendLine("PASV");
+		sendLine("PASV", bw);
 		
-		String[] p = parsePASV(readLine());
+		String[] p = parsePASV(readLine(br));
 		
-		sendLine("RETR license.txt");
+		sendLine("RETR license.txt", bw);
 		
 		getDataRETR(p[0], Integer.parseInt(p[1]));
 		
+		sendLine("QUIT", bw);
+		readLine(br);
 		
-		
-//		getDataRETR(p[0], Integer.parseInt(p[1]));
-		
+		socket.close();		
 	}
 
 	
@@ -191,10 +187,7 @@ public class FTPclient implements IFTPclient{
 	}
 	
 	
-	public void sendLine(String line) throws IOException {
-		if (socket == null) {
-			throw new IOException("FTP klienten har ingen forbindelse til serveren.");
-		}
+	public void sendLine(String line, BufferedWriter bw) throws IOException {
 		try {
 			bw.write(line + "\r\n");
 			bw.flush();
@@ -202,12 +195,11 @@ public class FTPclient implements IFTPclient{
 				System.out.println("> " + line);
 			}
 		} catch (IOException e) {
-			socket = null;
 			throw e;
 		}
 	}
 	
-	public String readLine() throws IOException {
+	public String readLine(BufferedReader br) throws IOException {
 		String line = br.readLine();
 		if (DEBUG) {
 			System.out.println("< " + line);
@@ -239,8 +231,8 @@ public class FTPclient implements IFTPclient{
 	public void getDataLIST(String host, int port) throws IOException{
 
 		Socket datasocket = new Socket(host, port);
-		br = new BufferedReader(new InputStreamReader(datasocket.getInputStream()));
-		bw = new BufferedWriter(new OutputStreamWriter(datasocket.getOutputStream()));
+		BufferedReader br = new BufferedReader(new InputStreamReader(datasocket.getInputStream()));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(datasocket.getOutputStream()));
 		
 		if (DEBUG)
 			System.out.println("Tilsluttet Datagram: " + datasocket.isConnected());
@@ -254,8 +246,7 @@ public class FTPclient implements IFTPclient{
         }
         
         System.out.println("**************Slut****************");
-        br.close();
-        bw.close();
+   
         datasocket.close();
 	}
 	
