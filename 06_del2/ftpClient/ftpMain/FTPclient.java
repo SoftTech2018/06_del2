@@ -101,6 +101,8 @@ public class FTPclient implements IFTPclient{
         }
 	}
 	
+	//HERFRA OG NED SKAL NOK FJERNES. UBRUGTE METODER
+	
 	public void sendLine(String line) throws IOException {
 		if (socket == null) {
 			throw new IOException("FTP klienten har ingen forbindelse til serveren.");
