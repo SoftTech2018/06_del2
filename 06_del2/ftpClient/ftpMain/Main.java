@@ -22,8 +22,8 @@ public class Main {
 		}
 		else {
 			System.out.println("******************************");
-			System.out.println("Du skal angive 4 parametre til FTP-serveren når programmet startes:");
-			System.out.println("host port username password");
+			System.out.println("Du skal angive 6 parametre når programmet startes:");
+			System.out.println("FTPhost FTPport FTPusername FTPpassword ZYBOhost ZYBOport");
 			System.out.println("******************************");
 			System.out.println("Programmet afsluttes.");
 			System.exit(0);
