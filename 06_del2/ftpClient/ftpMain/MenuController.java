@@ -67,7 +67,7 @@ public class MenuController implements IMenuController{
 		if (input.equals("e")) {
 			choice();
 		}		
-		if(input.equals("1")) {
+		if(input.equals("I")) {
 			String sampling = menu.setSampling();
 			menu.udskriv(zbtr.sendCommand(input, Integer.parseInt(sensor), sampling));
 		} else {

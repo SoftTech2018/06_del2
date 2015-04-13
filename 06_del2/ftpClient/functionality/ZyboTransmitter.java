@@ -59,8 +59,9 @@ public class ZyboTransmitter implements IZyboTransmitter {
 			}
 		}
 		else {
-			menu.udskriv(reply);
-			menuCon.choice();
+//			menu.udskriv(reply);
+//			menuCon.choice();
+			System.out.println(reply);
 		}
 		return reply;
 	}
