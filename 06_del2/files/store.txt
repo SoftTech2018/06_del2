@@ -1,9 +1,9 @@
 1,Facilisis,100
 2,Dissentias,100
 3,Comprehensam,98.7481
-4,Oblique,98.7481
+4,Oblique,96.24429999999998
 5,Voluptaria,100
 6,Eloquentiam,100
-7,Sensibus,98.7481
-8,Deseruisse,100
+7,Sensibus,97.49619999999999
+8,Deseruisse,99.864
 9,Maiestatis,98.7481

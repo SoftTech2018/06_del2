@@ -38,7 +38,7 @@ public class MenuController implements IMenuController {
 			System.out.println("UnknownHostException fejl");
 			System.exit(1);
 		} catch (IOException e) {
-			System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+			System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 			System.exit(1);
 		}
 	}
@@ -48,7 +48,7 @@ public class MenuController implements IMenuController {
 	 */
 	@Override
 	public void start(){
-		menu.show("Overvågning af vægtbetjening");
+		menu.show("Overvagning af vagtbetjening");
 		do{
 			menu.show("");
 			menu.show(state.desc());
@@ -68,7 +68,7 @@ public class MenuController implements IMenuController {
 				String input = null,name,nameInput;
 				int inputInt = 0;
 				try{
-					menu.show("Indtast operatørnummer:");
+					menu.show("Indtast operatornummer:");
 					input = trans.RM20("Tast bruger ID (10-16):","","");
 					menu.show(input);
 					if(input.toLowerCase().equals("q")){
@@ -80,26 +80,26 @@ public class MenuController implements IMenuController {
 					inputInt = Integer.parseUnsignedInt(input);
 					name = fileAccess.getOpr(inputInt);
 					menu.show("Bruger valgt: "+name+". Er dette korrekt?");		
-					nameInput = trans.RM20("Bekræft bruger:",name," ?");
+					nameInput = trans.RM20("Bekraft bruger:",name," ?");
 					if (nameInput.toLowerCase().equals("q")){
 						menu.show("Proceduren afbrudt af brugeren");
 						trans.P111("");
 						return START;
 					}
 					if(nameInput.equals(name)) {
-						menu.show(nameInput+" bekræftet.");
+						menu.show(nameInput+" bekraftet.");
 						mc.setOprID(inputInt);
 						return GET_PROD_NR;
 					} else {
 						menu.show(nameInput);
-						menu.show("Forkert bruger. Prøv igen.");
-						trans.P111("Forkert bruger. Prøv igen.");
+						menu.show("Forkert bruger. Prov igen.");
+						trans.P111("Forkert bruger. Prov igen.");
 						return START;
 					}
 				} catch (NumberFormatException e) {
 					try {
-						menu.show("Forkert input type. Prøv igen.");
-						trans.P111("Forkert input type. Prøv igen.");
+						menu.show("Forkert input type. Prov igen.");
+						trans.P111("Forkert input type. Prov igen.");
 					} catch (IOException e1) {
 						System.out.println("IOException fejl");
 						System.exit(1);
@@ -107,10 +107,10 @@ public class MenuController implements IMenuController {
 					return START;
 				} catch (IOException e){
 					try {
-						menu.show("Bruger findes ikke. Prøv igen.");
-						trans.P111("Bruger findes ikke. Prøv igen.");
+						menu.show("Bruger findes ikke. Prov igen.");
+						trans.P111("Bruger findes ikke. Prov igen.");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return START;
@@ -139,25 +139,25 @@ public class MenuController implements IMenuController {
 					inputInt = Integer.parseUnsignedInt(input);
 					product = fileAccess.getProductName(inputInt);
 					menu.show("Produkt valgt: "+product+". Er dette korrekt?");
-					prodInput = trans.RM20("Bekræft produkt:",product," ?");
+					prodInput = trans.RM20("Bekraft produkt:",product," ?");
 					if (prodInput.toLowerCase().equals("q")){
 						menu.show("Proceduren afbrudt af brugeren");
 						trans.P111("");
 						return START;
 					}
 					if(prodInput.equals(product)){
-						menu.show("Produkt bekræftet.");
+						menu.show("Produkt bekraftet.");
 						mc.setVareID(inputInt);
 						return SET_CONTAINER;
 					} else {
-						menu.show("Forkert produkt. Prøv igen.");
-						trans.P111("Forkert produkt. Prøv igen.");
+						menu.show("Forkert produkt. Prov igen.");
+						trans.P111("Forkert produkt. Prov igen.");
 						return GET_PROD_NR;
 					}					
 				} catch (NumberFormatException e) {
 					try {
-						menu.show("Forkert input type. Prøv igen.");
-						trans.P111("Forkert input type. Prøv igen.");
+						menu.show("Forkert input type. Prov igen.");
+						trans.P111("Forkert input type. Prov igen.");
 					} catch (IOException e1) {
 						System.out.println("IOException fejl");
 						System.exit(1);
@@ -165,10 +165,10 @@ public class MenuController implements IMenuController {
 					return GET_PROD_NR;
 				} catch (IOException e){
 					try {
-						menu.show("Produkt findes ikke. Prøv igen.");
-						trans.P111("Produkt findes ikke. Prøv igen");
+						menu.show("Produkt findes ikke. Prov igen.");
+						trans.P111("Produkt findes ikke. Prov igen");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return GET_PROD_NR;
@@ -185,8 +185,8 @@ public class MenuController implements IMenuController {
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
-					menu.show("Påsæt beholder og bekræft.");
-					input = trans.RM20("Påsæt beholder, bekræft:","OK","?");
+					menu.show("Pasat beholder og bekraft.");
+					input = trans.RM20("Pasat beholder, bekraft:","OK","?");
 					menu.show(input);
 					if(input.toLowerCase().equals("q")){
 						menu.show("Proceduren afbrudt af brugeren");
@@ -195,21 +195,21 @@ public class MenuController implements IMenuController {
 					}
 					trans.P111("");
 					if (input.equals(answer)) {
-						menu.show("Beholder påsat");
+						menu.show("Beholder pasat");
 						mc.setTara(Double.parseDouble(trans.T()));
-						menu.show("Vægt tareret: "+mc.getTara());
+						menu.show("Vagt tareret: "+mc.getTara());
 						return ADD_PRODUCT;
 					} else {
-						menu.show("Beholder ej påsat. Prøv igen.");
-						trans.P111("Beholder ej påsat. Prøv igen.");
+						menu.show("Beholder ej pasat. Prov igen.");
+						trans.P111("Beholder ej pasat. Prov igen.");
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
 					try {
-						menu.show("Fejl. Prøv igen.");
-						trans.P111("Fejl. Prøv igen.");
+						menu.show("Fejl. Prov igen.");
+						trans.P111("Fejl. Prov igen.");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return SET_CONTAINER;
@@ -225,8 +225,8 @@ public class MenuController implements IMenuController {
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
-					menu.show("Afvej vare og bekræft.");
-					input = trans.RM20("Afvej vare og bekræft:","OK","?");
+					menu.show("Afvej vare og bekraft.");
+					input = trans.RM20("Afvej vare og bekraft:","OK","?");
 					menu.show(input);
 					if(input.toLowerCase().equals("q")){
 						menu.show("Proceduren afbrudt af brugeren");
@@ -235,8 +235,8 @@ public class MenuController implements IMenuController {
 					}
 					trans.P111("");
 					if (input.equals(answer)) {
-						menu.show("Afvej og kvittér med dør-knap");
-						trans.P111("Afvej og kvittér med dør-knap");
+						menu.show("Afvej og kvitter med dor-knap");
+						trans.P111("Afvej og kvitter med dor-knap");
 						trans.startST(true);
 						mc.setAfvejning(Double.parseDouble(trans.listenST()));
 						trans.startST(false);
@@ -244,17 +244,17 @@ public class MenuController implements IMenuController {
 						trans.P111("");
 						return REMOVE_CONTAINER;
 					} else {
-						menu.show("Vare ej afvejet. Prøv igen.");
-						trans.P111("Vare ej afvejet. Prøv igen.");
+						menu.show("Vare ej afvejet. Prov igen.");
+						trans.P111("Vare ej afvejet. Prov igen.");
 						return ADD_PRODUCT;
 					}
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						menu.show("Fejl. Prøv igen.");
-						trans.P111("Fejl. Prøv igen.");
+						menu.show("Fejl. Prov igen.");
+						trans.P111("Fejl. Prov igen.");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return ADD_PRODUCT;
@@ -270,8 +270,8 @@ public class MenuController implements IMenuController {
 			State changeState(IMenu menu, IReadFiles fileAccess, ITransmitter trans, MenuController mc) {
 				String input = null, answer = "OK";
 				try{
-					menu.show("Fjern beholder og bekræft.");
-					input = trans.RM20("Fjern beholder, kvittér:","OK","?");
+					menu.show("Fjern beholder og bekraft.");
+					input = trans.RM20("Fjern beholder, kvitter:","OK","?");
 					menu.show(input);
 					if(input.toLowerCase().equals("q")){
 						menu.show("Proceduren afbrudt af brugeren");
@@ -285,20 +285,20 @@ public class MenuController implements IMenuController {
 						menu.show("Vare ID: "+mc.getVareID()+", Afvejning: "+mc.getAfvejning());
 						fileAccess.writeLog(mc.getOprID(), mc.getVareID(), mc.getTara(), mc.getAfvejning());
 						menu.show("Log skrevet:");
-						menu.show("Operatør ID: "+mc.getOprID()+", Vare ID: "+mc.getVareID()+", Tara vægt: "+mc.getTara()+", Afvejning: "+mc.getAfvejning());
+						menu.show("Operator ID: "+mc.getOprID()+", Vare ID: "+mc.getVareID()+", Tara vagt: "+mc.getTara()+", Afvejning: "+mc.getAfvejning());
 						return RESTART;
 					} else {
-						menu.show("Beholder ej fjernet. Prøv igen.");
-						trans.P111("Beholder ej fjernet. Prøv igen");
+						menu.show("Beholder ej fjernet. Prov igen.");
+						trans.P111("Beholder ej fjernet. Prov igen");
 						return REMOVE_CONTAINER;
 					}
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						menu.show("Fejl. Prøv igen.");
-						trans.P111("Fejl. Prøv igen.");
+						menu.show("Fejl. Prov igen.");
+						trans.P111("Fejl. Prov igen.");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return REMOVE_CONTAINER	;
@@ -330,10 +330,10 @@ public class MenuController implements IMenuController {
 
 				} catch (NumberFormatException | IOException e) {
 					try {
-						menu.show("Fejl. Prøv igen.");
-						trans.P111("Fejl. Prøv igen.");
+						menu.show("Fejl. Prov igen.");
+						trans.P111("Fejl. Prov igen.");
 					} catch (IOException e1) {
-						System.out.println("Fejl ved forbindelse til vægten. Programmet lukket.");
+						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
 					}
 					return RESTART;
