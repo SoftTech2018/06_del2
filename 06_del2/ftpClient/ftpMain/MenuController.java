@@ -18,7 +18,7 @@ public class MenuController implements IMenuController{
 	private String host, user, pass;
 	private int port;
 	
-	public MenuController(IMenu menu, IZyboTransmitter zbtr, IFTPclient ftpC, String host, int port, String user, String pass) throws NumberFormatException, IOException{ 
+	public MenuController(IMenu menu, IZyboTransmitter zbtr, IFTPclient ftpC, String host, int port, String user, String pass, String zyboHost, int zyboPort) throws NumberFormatException, IOException{ 
 		this.menu = menu;
 		this.zbtr = zbtr;
 		this.ftpC = ftpC;
@@ -26,7 +26,7 @@ public class MenuController implements IMenuController{
 		this.host = host;
 		this.user = user;
 		this.pass = pass;
-		connectZybo(host, port);
+		connectZybo(zyboHost, zyboPort);
 	}
 	
 	public void connectZybo(String host, int port){
@@ -77,7 +77,6 @@ public class MenuController implements IMenuController{
 						break;
 					default:
 						menu.udskriv("Forkert input, prøv igen");
-						choice();
 					}
 				}
 				break;
