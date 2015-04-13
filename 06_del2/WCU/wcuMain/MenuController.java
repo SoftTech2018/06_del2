@@ -93,13 +93,13 @@ public class MenuController implements IMenuController {
 					} else {
 						menu.show(nameInput);
 						menu.show("Forkert bruger. Prov igen.");
-						trans.P111("Forkert bruger. Prov igen.");
+						trans.RM20("Forkert bruger. Prov igen.", "OK", "?");
 						return START;
 					}
 				} catch (NumberFormatException e) {
 					try {
 						menu.show("Forkert input type. Prov igen.");
-						trans.P111("Forkert input type. Prov igen.");
+						trans.RM20("Forkert input type. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("IOException fejl");
 						System.exit(1);
@@ -108,7 +108,7 @@ public class MenuController implements IMenuController {
 				} catch (IOException e){
 					try {
 						menu.show("Bruger findes ikke. Prov igen.");
-						trans.P111("Bruger findes ikke. Prov igen.");
+						trans.RM20("Bruger findes ikke. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
@@ -151,13 +151,13 @@ public class MenuController implements IMenuController {
 						return SET_CONTAINER;
 					} else {
 						menu.show("Forkert produkt. Prov igen.");
-						trans.P111("Forkert produkt. Prov igen.");
+						trans.RM20("Forkert produkt. Prov igen.", "OK", "?");
 						return GET_PROD_NR;
 					}					
 				} catch (NumberFormatException e) {
 					try {
 						menu.show("Forkert input type. Prov igen.");
-						trans.P111("Forkert input type. Prov igen.");
+						trans.RM20("Forkert input type. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("IOException fejl");
 						System.exit(1);
@@ -166,7 +166,7 @@ public class MenuController implements IMenuController {
 				} catch (IOException e){
 					try {
 						menu.show("Produkt findes ikke. Prov igen.");
-						trans.P111("Produkt findes ikke. Prov igen");
+						trans.RM20("Produkt findes ikke. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
@@ -201,13 +201,13 @@ public class MenuController implements IMenuController {
 						return ADD_PRODUCT;
 					} else {
 						menu.show("Beholder ej pasat. Prov igen.");
-						trans.P111("Beholder ej pasat. Prov igen.");
+						trans.RM20("Beholder ej pasat. Prov igen.", "OK", "?");
 						return SET_CONTAINER;
 					}					
 				} catch (NumberFormatException | IOException e) {
 					try {
 						menu.show("Fejl. Prov igen.");
-						trans.P111("Fejl. Prov igen.");
+						trans.RM20("Fejl. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
@@ -245,14 +245,14 @@ public class MenuController implements IMenuController {
 						return REMOVE_CONTAINER;
 					} else {
 						menu.show("Vare ej afvejet. Prov igen.");
-						trans.P111("Vare ej afvejet. Prov igen.");
+						trans.RM20("Vare ej afvejet. Prov igen.", "OK", "?");
 						return ADD_PRODUCT;
 					}
 
 				} catch (NumberFormatException | IOException e) {
 					try {
 						menu.show("Fejl. Prov igen.");
-						trans.P111("Fejl. Prov igen.");
+						trans.RM20("Fejl. Prov igen.", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
@@ -289,14 +289,14 @@ public class MenuController implements IMenuController {
 						return RESTART;
 					} else {
 						menu.show("Beholder ej fjernet. Prov igen.");
-						trans.P111("Beholder ej fjernet. Prov igen");
+						trans.RM20("Beholder ej fjernet. Prov igen", "OK", "?");
 						return REMOVE_CONTAINER;
 					}
 
 				} catch (NumberFormatException | IOException e) {
 					try {
 						menu.show("Fejl. Prov igen.");
-						trans.P111("Fejl. Prov igen.");
+						trans.RM20("Fejl. Prov igen", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
@@ -331,7 +331,7 @@ public class MenuController implements IMenuController {
 				} catch (NumberFormatException | IOException e) {
 					try {
 						menu.show("Fejl. Prov igen.");
-						trans.P111("Fejl. Prov igen.");
+						trans.RM20("Fejl. Prov igen", "OK", "?");
 					} catch (IOException e1) {
 						System.out.println("Fejl ved forbindelse til vagten. Programmet lukket.");
 						System.exit(1);
