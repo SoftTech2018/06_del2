@@ -54,17 +54,17 @@ public class Menu implements IMenu {
 		return out;
 	}
 	
-	public String downloadFile(){
+	public String downloadFileName(){
 		String output;
-		System.out.print("Skriv navnet p� filen du �nsker at hente: ");
+		System.out.print("Skriv navnet paa filen du oensker at hente: ");
 		output = menuScan.nextLine();
 		return output;
 	}
 	
 	public String downloadDestination(){
 		String output;
-		System.out.println("Hvor skal filen placeres p� harddisken?");
-		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/");
+		System.out.println("Hvor skal filen placeres paa harddisken?");
+		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/\r\n"+"NB: slut af med /");
 		output = menuScan.nextLine();
 		return output;
 	}

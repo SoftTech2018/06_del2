@@ -32,7 +32,7 @@ public interface IMenu {
 	 * Spørger bruger hvilken fil der ønskes downloadet.
 	 * @return String indeholdende filens navn
 	 */
-	String downloadFile();
+	String downloadFileName();
 	
 	/**
 	 * Spørger bruger hvor filen skal ligges.

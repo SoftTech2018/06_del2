@@ -70,7 +70,7 @@ public class FTPclient implements IFTPclient{
 		
 	}
 	
-	public synchronized void connectToServerRETR(String host, int port, String user, String pass) throws IOException{
+	public synchronized void connectToServerRETR(String host, int port, String user, String pass, String savePath, String fileName) throws IOException{
 		
 		Socket socket = new Socket(host, port);
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -107,7 +107,7 @@ public class FTPclient implements IFTPclient{
 		
 		sendLine("RETR license.txt", bw);
 		
-		getDataRETR(p[0], Integer.parseInt(p[1]));
+		getDataRETR(p[0], Integer.parseInt(p[1]), savePath, fileName);
 		
 		sendLine("QUIT", bw);
 		readLine(br);
@@ -179,13 +179,14 @@ public class FTPclient implements IFTPclient{
         datasocket.close();
 	}
 	
-	public void getDataRETR(String host, int port) throws IOException{
+	public void getDataRETR(String host, int port, String savePath, String fileName) throws IOException{
 
 		Socket datasocket = new Socket(host, port);
 		
 		InputStream inputStream = datasocket.getInputStream();
 		 
-        FileOutputStream outputStream = new FileOutputStream("/Users/JacobWorckJepsen/Desktop/test/"+"license.txt");
+		FileOutputStream outputStream = new FileOutputStream(savePath+fileName);
+//      FileOutputStream outputStream = new FileOutputStream("/Users/JacobWorckJepsen/Desktop/test/"+"license.txt");
         
         System.out.println("*****Fil downloades - vent*****");
         

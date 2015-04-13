@@ -49,7 +49,7 @@ public class MenuController implements IMenuController{
 				break;
 			case "2":
 				
-				ftpC.connectToServerRETR(host, port, "missekat.dk", "jakobmedc");
+				ftpC.connectToServerRETR(host, port, "missekat.dk", "jakobmedc", menu.downloadDestination(), menu.downloadFileName());
 				break;
 			case "3":
 				String input = menu.sensorOverblik();
@@ -97,13 +97,13 @@ public class MenuController implements IMenuController{
 		}
 	}
 	
-	public String download(){
-		return menu.downloadFile();
-	}
+//	public String download(){
+//		return menu.downloadFile();
+//	}
 	
-	public String downloadDestination(){
-		return menu.downloadDestination();
-	}
+//	public String downloadDestination(){
+//		return menu.downloadDestination();
+//	}
 	public void udskrivMenu(String string) {
 		menu.udskriv(string);
 	}
