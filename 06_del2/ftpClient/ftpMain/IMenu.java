@@ -53,14 +53,4 @@ public interface IMenu {
 	 * @param fileList Listen der skal udskrives
 	 */
 	void showList(ArrayList<String> fileList);
-
-	
-
-	
-
-
-	
-
-	
-
 }

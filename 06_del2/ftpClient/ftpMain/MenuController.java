@@ -36,8 +36,8 @@ public class MenuController implements IMenuController{
 			zbtr.connected(in, out);
 			choice();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
 			menu.udskriv("Kan ikke forbinde til host");
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
