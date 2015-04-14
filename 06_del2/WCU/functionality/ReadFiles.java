@@ -55,7 +55,6 @@ public class ReadFiles implements IReadFiles {
 			} 
 			p++;
 		}
-		System.out.println(out);
 		if (out==null)
 			throw new IOException();
 		return out;
