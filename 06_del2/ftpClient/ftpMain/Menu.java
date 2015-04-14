@@ -36,7 +36,7 @@ public class Menu implements IMenu {
 		System.out.println("Tast 4 for sensor 4");
 		System.out.println("Tast 222 for sensor 222");
 		System.out.println("Tast 7 for sensor 7");
-		System.out.println("Tast e for at g� tilbage til hovedmenu");
+		System.out.println("Tast e for at gå tilbage til hovedmenu");
 		System.out.println("**************************************");
 		System.out.println("");
 		out = menuScan.nextLine();
@@ -47,11 +47,11 @@ public class Menu implements IMenu {
 	public String sensorMenu() {
 		String out;
 		System.out.println("**************************************");
-		System.out.println("Indtast hvilken funktion der skal udf�res");
+		System.out.println("Indtast hvilken funktion der skal udføres");
 		System.out.println("I: Bed sensor om at ændre sit samplingsinterval.");
-		System.out.println("S: Bed sensor om at begynde m�ling.");
-		System.out.println("B: Bed sensor om at stoppe m�ling.");
-		System.out.println("e: G� tilbage til hovedmenu.");
+		System.out.println("S: Bed sensor om at begynde måling.");
+		System.out.println("B: Bed sensor om at stoppe måling.");
+		System.out.println("e: Gå tilbage til hovedmenu.");
 		System.out.println("**************************************");
 		System.out.println("");
 		out = menuScan.nextLine();
@@ -62,7 +62,7 @@ public class Menu implements IMenu {
 	public String setSampling() {
 		String out;
 		System.out.println("**************************************");
-		System.out.println("Hvor meget vil du �ndre samplingsintervallet? (eks: 12300)");
+		System.out.println("Hvor meget vil du ændre samplingsintervallet? (eks: 12300)");
 		System.out.println("**************************************");
 		System.out.println();
 		out = menuScan.nextLine();
@@ -73,7 +73,7 @@ public class Menu implements IMenu {
 	public String downloadFileName(){
 		String output;
 		System.out.println("**************************************");
-		System.out.println("Skriv navnet paa filen du oensker at hente: ");
+		System.out.println("Skriv navnet på filen du ønsker at hente: ");
 		System.out.println("**************************************");
 		System.out.println();
 		output = menuScan.nextLine();
@@ -84,7 +84,7 @@ public class Menu implements IMenu {
 	public String downloadDestination(){
 		String output;
 		System.out.println("**************************************");
-		System.out.println("Hvor skal filen placeres paa harddisken?");
+		System.out.println("Hvor skal filen placeres på harddisken?");
 		System.out.println("Eksempel: C:/Users/JACOB/Desktop/Test/\r\n"+"NB: slut af med /");
 		System.out.println("**************************************");
 		System.out.println();
